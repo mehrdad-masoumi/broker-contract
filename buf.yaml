@@ -1,0 +1,11 @@
+# For documentation and tooling that prefers Buf.
+# Primary generation path remains `make proto` (protoc).
+version: v2
+modules:
+  - path: proto
+lint:
+  use:
+    - DEFAULT
+breaking:
+  use:
+    - FILE

@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package notification.v1;
+
+option go_package = "github.com/mehrdad-masoumi/broker-contract/gen/go/notification/v1;notificationv1";
+
+import "google/protobuf/timestamp.proto";
+
+// Channel enumerates delivery channels accepted by Notification Service.
+enum Channel {
+  CHANNEL_UNSPECIFIED = 0;
+  CHANNEL_IN_APP = 1;
+  CHANNEL_EMAIL = 2;
+  CHANNEL_SMS = 3;
+  CHANNEL_WHATSAPP = 4;
+  CHANNEL_PUSH = 5;
+}
+
+// NotificationStatus is returned after a command is accepted (not after delivery).
+enum NotificationStatus {
+  NOTIFICATION_STATUS_UNSPECIFIED = 0;
+  NOTIFICATION_STATUS_ACCEPTED = 1;
+  NOTIFICATION_STATUS_SCHEDULED = 2;
+  NOTIFICATION_STATUS_DUPLICATE = 3;
+}
+
+// Recipient carries all contact data required for delivery.
+// Notification Service must NOT call User Service to resolve contacts.
+message Recipient {
+  // Optional platform user id (UUID string). Required for in_app channel.
+  string user_id = 1;
+  string email = 2;
+  string phone = 3;
+  repeated string device_tokens = 4;
+  string display_name = 5;
+}
+
+// NotificationRequested is the versioned public command/event contract.
+// Used identically over gRPC (SendNotificationRequest) and RabbitMQ JSON
+// (routing key notification.requested.v1).
+message NotificationRequested {
+  // Contract version, must be "v1".
+  string version = 1;
+  // Unique message id (UUID). Distinct from idempotency_key.
+  string message_id = 2;
+  // Mandatory dedupe key across all transports (e.g. "withdrawal:123:approved").
+  string idempotency_key = 3;
+  // Calling microservice name (e.g. "withdrawal-service").
+  string source_service = 4;
+  // Template code registered in Notification Service DB.
+  string template_code = 5;
+  // BCP-47 locale (e.g. "fa-IR"). Falls back per service rules if empty.
+  string locale = 6;
+  Recipient recipient = 7;
+  // Wire values: in_app, email, sms, whatsapp, push.
+  // Proto enum Channel is preferred for gRPC; JSON uses string enums.
+  repeated Channel channels = 8;
+  // Template variables. All values should be renderable as strings.
+  map<string, string> variables = 9;
+  google.protobuf.Timestamp scheduled_at = 10;
+  map<string, string> metadata = 11;
+  google.protobuf.Timestamp requested_at = 12;
+  // Alias for requested_at in some producers; prefer requested_at.
+  google.protobuf.Timestamp occurred_at = 13;
+  string correlation_id = 14;
+  string trace_id = 15;
+}
+
+// SendNotificationRequest wraps NotificationRequested for the gRPC RPC.
+message SendNotificationRequest {
+  NotificationRequested notification = 1;
+}
+
+message SendNotificationResponse {
+  string notification_id = 1;
+  NotificationStatus status = 2;
+  bool duplicate = 3;
+  google.protobuf.Timestamp accepted_at = 4;
+  string error_code = 5;
+  string error_message = 6;
+}
+
+// NotificationService accepts notification commands synchronously.
+// The RPC validates and persists (notification + outbox) then returns Accepted;
+// it does not wait for email/SMS delivery.
+service NotificationService {
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+}
