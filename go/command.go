@@ -38,6 +38,7 @@ const (
 	RequestedQueue   = "notification-service.requested.v1"
 	DLX              = "notification.dlx"
 	RequestedDLQ     = "notification-service.requested.v1.dlq"
+	ContentType      = "application/json"
 )
 
 // Recipient is the caller-supplied contact snapshot.
