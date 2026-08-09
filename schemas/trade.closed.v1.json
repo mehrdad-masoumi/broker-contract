@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mehrdad-masoumi/broker-contract/schemas/trade.closed.v1.json",
+  "title": "trade.closed.v1",
+  "description": "Payload for trade.closed.v1 (Envelope.payload on broker.events). Lot and money fields are decimal strings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trade_id",
+    "user_id",
+    "trading_account_id",
+    "symbol",
+    "account_type",
+    "side",
+    "open_time",
+    "close_time",
+    "duration_seconds",
+    "lot",
+    "trade_status"
+  ],
+  "properties": {
+    "trade_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "position_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "user_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "trading_account_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "account_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "side": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16
+    },
+    "open_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "close_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lot": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Decimal string, e.g. \"2.50\"."
+    },
+    "open_price": {
+      "type": "string"
+    },
+    "close_price": {
+      "type": "string"
+    },
+    "profit": {
+      "type": "string"
+    },
+    "commission": {
+      "type": "string"
+    },
+    "swap": {
+      "type": "string"
+    },
+    "trade_status": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    }
+  },
+  "examples": [
+    {
+      "trade_id": 9001,
+      "position_id": 100,
+      "user_id": 123,
+      "trading_account_id": 55,
+      "symbol": "XAUUSD",
+      "account_type": "standard",
+      "side": "buy",
+      "open_time": "2026-07-31T09:00:00Z",
+      "close_time": "2026-07-31T10:00:00Z",
+      "duration_seconds": 3600,
+      "lot": "2.50",
+      "open_price": "2350.10",
+      "close_price": "2355.40",
+      "profit": "132.50",
+      "commission": "0",
+      "swap": "0",
+      "trade_status": "closed"
+    }
+  ]
+}

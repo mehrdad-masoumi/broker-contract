@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mehrdad-masoumi/broker-contract/schemas/user.registered.v1.json",
+  "title": "user.registered.v1",
+  "description": "Payload for user.registered.v1 (Envelope.payload on broker.events).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["user_id", "registered_at"],
+  "properties": {
+    "user_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "referral_code": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "registered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 8,
+      "description": "ISO 3166-1 alpha-2 country code when known."
+    }
+  },
+  "examples": [
+    {
+      "user_id": 123,
+      "referral_code": "ABCD1234",
+      "registered_at": "2026-07-31T10:00:00Z",
+      "country": "DE"
+    }
+  ]
+}

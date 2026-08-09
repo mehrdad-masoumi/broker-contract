@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mehrdad-masoumi/broker-contract/schemas/user.verified.v1.json",
+  "title": "user.verified.v1",
+  "description": "Payload for user.verified.v1 (Envelope.payload on broker.events).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["user_id", "verified_at"],
+  "properties": {
+    "user_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 254
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "verified_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

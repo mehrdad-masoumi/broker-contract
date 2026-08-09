@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mehrdad-masoumi/broker-contract/schemas/user.disabled.v1.json",
+  "title": "user.disabled.v1",
+  "description": "Payload for user.disabled.v1 (Envelope.payload on broker.events).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["user_id", "disabled_at"],
+  "properties": {
+    "user_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "disabled_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 512
+    }
+  }
+}

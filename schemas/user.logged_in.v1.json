@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mehrdad-masoumi/broker-contract/schemas/user.logged_in.v1.json",
+  "title": "user.logged_in.v1",
+  "description": "Payload for user.logged_in.v1 (Envelope.payload on broker.events).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["user_id", "logged_in_at"],
+  "properties": {
+    "user_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "logged_in_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ip_address": {
+      "type": "string",
+      "maxLength": 45
+    }
+  }
+}

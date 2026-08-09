@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ProjectionType mirrors monolith usercontract.ProjectionType.
+enum ProjectionType {
+  PROJECTION_TYPE_UNSPECIFIED = 0;
+  PROJECTION_TYPE_BASIC = 1;
+  PROJECTION_TYPE_WITH_PROFILE = 2;
+  PROJECTION_TYPE_WITH_ROLES = 3;
+  PROJECTION_TYPE_WITH_PROFILE_AND_ROLES = 4;
+  PROJECTION_TYPE_FULL = 5;
+}
+
+message Profile {
+  uint64 user_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string avatar = 4;
+  string father_name = 5;
+  string national_id = 6;
+  string nationality = 7;
+  string country_code = 8;
+  string birthdate = 9; // YYYY-MM-DD when set
+}
+
+message Role {
+  string id = 1;
+  string description = 2;
+  bool full_access = 3;
+  bool admin_access = 4;
+}
+
+message Settings {
+  uint64 user_id = 1;
+  string language = 2;
+  string timezone = 3;
+  string currency = 4;
+  bool notification_enabled = 5;
+  bool trade_alerts_enabled = 6;
+}
+
+message TwoFactor {
+  uint64 user_id = 1;
+  bool enabled = 2;
+}
+
+message Hierarchy {
+  uint64 user_id = 1;
+  uint64 parent_id = 2;
+  int32 level = 3;
+  string path = 4;
+  int32 subsets = 5;
+}
+
+// User is the cross-service user projection (equivalent to usercontract.Data).
+message User {
+  uint64 id = 1;
+  string email = 2;
+  string phone_number = 3;
+  string status = 4; // active | inactive
+  bool email_verify = 5;
+  bool phone_verify = 6;
+  Profile profile = 7;
+  repeated Role roles = 8;
+  Settings settings = 9;
+  TwoFactor two_factor = 10;
+  Hierarchy hierarchy = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+message GetUserRequest {
+  uint64 user_id = 1;
+  ProjectionType projection = 2;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message GetUsersRequest {
+  repeated uint64 user_ids = 1;
+  ProjectionType projection = 2;
+}
+
+message GetUsersResponse {
+  map<uint64, User> users = 1;
+}
+
+message HasAdminAccessRequest {
+  uint64 user_id = 1;
+}
+
+message HasAdminAccessResponse {
+  bool has_admin_access = 1;
+}
+
+message HasFullAccessRequest {
+  uint64 user_id = 1;
+}
+
+message HasFullAccessResponse {
+  bool has_full_access = 1;
+}
+
+message GetRolesByUserIDRequest {
+  uint64 user_id = 1;
+}
+
+message GetRolesByUserIDResponse {
+  repeated Role roles = 1;
+}
+
+message GetPermissionKeysByUserIDRequest {
+  uint64 user_id = 1;
+}
+
+message GetPermissionKeysByUserIDResponse {
+  repeated string permission_keys = 1;
+}
+
+message GetUserIDsByRoleIDsRequest {
+  repeated string role_ids = 1;
+}
+
+message GetUserIDsByRoleIDsResponse {
+  repeated uint64 user_ids = 1;
+}
+
+// UserService is the sync S2S API for identity lookups and RBAC checks.
+service UserService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+  rpc HasAdminAccess(HasAdminAccessRequest) returns (HasAdminAccessResponse);
+  rpc HasFullAccess(HasFullAccessRequest) returns (HasFullAccessResponse);
+  rpc GetRolesByUserID(GetRolesByUserIDRequest) returns (GetRolesByUserIDResponse);
+  rpc GetPermissionKeysByUserID(GetPermissionKeysByUserIDRequest) returns (GetPermissionKeysByUserIDResponse);
+  rpc GetUserIDsByRoleIDs(GetUserIDsByRoleIDsRequest) returns (GetUserIDsByRoleIDsResponse);
+}
