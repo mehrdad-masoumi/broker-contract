@@ -27,6 +27,8 @@ type Envelope struct {
 	OccurredAt    time.Time       `json:"occurred_at"`
 	Producer      string          `json:"producer"`
 	CorrelationID string          `json:"correlation_id,omitempty"`
+	TraceParent   string          `json:"traceparent,omitempty"`
+	TraceState    string          `json:"tracestate,omitempty"`
 	Payload       json.RawMessage `json:"payload"`
 }
 
@@ -53,6 +55,19 @@ func NewEnvelope(eventType, producer, correlationID string, payload any) (Envelo
 		CorrelationID: correlationID,
 		Payload:       raw,
 	}, nil
+}
+
+// InjectTraceContext copies W3C traceparent/tracestate from carrier into the envelope.
+func (e *Envelope) InjectTraceContext(traceparent, tracestate string) {
+	if e == nil {
+		return
+	}
+	if traceparent != "" {
+		e.TraceParent = traceparent
+	}
+	if tracestate != "" {
+		e.TraceState = tracestate
+	}
 }
 
 // MarshalEnvelope serializes an Envelope to JSON bytes for RabbitMQ publishing.
