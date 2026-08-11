@@ -28,6 +28,7 @@ const (
 	UserService_GetUserIDsByRoleIDs_FullMethodName        = "/user.v1.UserService/GetUserIDsByRoleIDs"
 	UserService_GetUserIDsByPermissionKeys_FullMethodName = "/user.v1.UserService/GetUserIDsByPermissionKeys"
 	UserService_VerifyTwoFactorCode_FullMethodName        = "/user.v1.UserService/VerifyTwoFactorCode"
+	UserService_ApplyKYCIdentity_FullMethodName           = "/user.v1.UserService/ApplyKYCIdentity"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -45,6 +46,8 @@ type UserServiceClient interface {
 	GetUserIDsByRoleIDs(ctx context.Context, in *GetUserIDsByRoleIDsRequest, opts ...grpc.CallOption) (*GetUserIDsByRoleIDsResponse, error)
 	GetUserIDsByPermissionKeys(ctx context.Context, in *GetUserIDsByPermissionKeysRequest, opts ...grpc.CallOption) (*GetUserIDsByPermissionKeysResponse, error)
 	VerifyTwoFactorCode(ctx context.Context, in *VerifyTwoFactorCodeRequest, opts ...grpc.CallOption) (*VerifyTwoFactorCodeResponse, error)
+	// ApplyKYCIdentity merges phone + profile fields from KYC into user-service SoT.
+	ApplyKYCIdentity(ctx context.Context, in *ApplyKYCIdentityRequest, opts ...grpc.CallOption) (*ApplyKYCIdentityResponse, error)
 }
 
 type userServiceClient struct {
@@ -145,6 +148,16 @@ func (c *userServiceClient) VerifyTwoFactorCode(ctx context.Context, in *VerifyT
 	return out, nil
 }
 
+func (c *userServiceClient) ApplyKYCIdentity(ctx context.Context, in *ApplyKYCIdentityRequest, opts ...grpc.CallOption) (*ApplyKYCIdentityResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ApplyKYCIdentityResponse)
+	err := c.cc.Invoke(ctx, UserService_ApplyKYCIdentity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -160,6 +173,8 @@ type UserServiceServer interface {
 	GetUserIDsByRoleIDs(context.Context, *GetUserIDsByRoleIDsRequest) (*GetUserIDsByRoleIDsResponse, error)
 	GetUserIDsByPermissionKeys(context.Context, *GetUserIDsByPermissionKeysRequest) (*GetUserIDsByPermissionKeysResponse, error)
 	VerifyTwoFactorCode(context.Context, *VerifyTwoFactorCodeRequest) (*VerifyTwoFactorCodeResponse, error)
+	// ApplyKYCIdentity merges phone + profile fields from KYC into user-service SoT.
+	ApplyKYCIdentity(context.Context, *ApplyKYCIdentityRequest) (*ApplyKYCIdentityResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -196,6 +211,9 @@ func (UnimplementedUserServiceServer) GetUserIDsByPermissionKeys(context.Context
 }
 func (UnimplementedUserServiceServer) VerifyTwoFactorCode(context.Context, *VerifyTwoFactorCodeRequest) (*VerifyTwoFactorCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyTwoFactorCode not implemented")
+}
+func (UnimplementedUserServiceServer) ApplyKYCIdentity(context.Context, *ApplyKYCIdentityRequest) (*ApplyKYCIdentityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyKYCIdentity not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -380,6 +398,24 @@ func _UserService_VerifyTwoFactorCode_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_ApplyKYCIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyKYCIdentityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ApplyKYCIdentity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ApplyKYCIdentity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ApplyKYCIdentity(ctx, req.(*ApplyKYCIdentityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -422,6 +458,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyTwoFactorCode",
 			Handler:    _UserService_VerifyTwoFactorCode_Handler,
+		},
+		{
+			MethodName: "ApplyKYCIdentity",
+			Handler:    _UserService_ApplyKYCIdentity_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -14,7 +14,7 @@ ifneq ($(wildcard tools/protoc/include),)
 PROTOC_INCLUDE += --proto_path=tools/protoc/include
 endif
 
-PROTO_FILES := proto/notification/v1/notification.proto proto/user/v1/user.proto
+PROTO_FILES := proto/notification/v1/notification.proto proto/user/v1/user.proto proto/media/v1/media.proto
 
 proto:
 	$(PROTOC) --go_out=gen/go --go_opt=paths=source_relative \
@@ -28,6 +28,7 @@ buf-generate:
 clean:
 	rm -f gen/go/notification/v1/*.pb.go
 	rm -f gen/go/user/v1/*.pb.go
+	rm -f gen/go/media/v1/*.pb.go
 
 deps:
 	go mod download

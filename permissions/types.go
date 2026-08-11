@@ -5,8 +5,8 @@ package permissions
 
 // Permission is a code-first permission definition.
 type Permission struct {
-	Key         string // e.g. "kyc:submission:review"
-	Service     string // owning service/domain, e.g. "core", "wallet", "user"
+	Key         string // e.g. "kyc.submission.review" (canonical) or legacy "kyc:submission:review"
+	Service     string // owning microservice, e.g. "broker-service", "kyc-service"
 	Module      string // feature module within the service, e.g. "kyc", "broker"
 	Group       string // Admin Panel grouping label, e.g. "KYC", "Accounts"
 	Name        string // short title for Admin Panel
@@ -14,7 +14,21 @@ type Permission struct {
 	Route       string // optional "METHOD /path" for route-based guards
 }
 
-// Key constants — prefer these over raw strings in route middleware.
+// Owning service names used in the catalog (must not be generic "core").
+const (
+	ServiceUser         = "user"
+	ServiceBroker       = "broker-service"
+	ServiceBonus        = "bonus-service"
+	ServiceKYC          = "kyc-service"
+	ServiceSupport      = "support-service"
+	ServiceMedia        = "media-service"
+	ServiceWallet       = "wallet"
+	ServiceIB           = "ib"
+	ServiceNotification = "notification"
+)
+
+// Key constants — prefer fine-grained dotted keys in new code; colon keys are
+// legacy aliases kept for JWT / role-assignment backward compatibility.
 const (
 	// user-service / auth RBAC admin
 	AuthUserRead             = "auth:user:read"
@@ -29,14 +43,14 @@ const (
 	AuthPermissionRead       = "auth:permission:read"
 	AuthRolePermissionManage = "auth:role_permission:manage"
 
-	UserProfileRead             = "user:profile:read"
-	UserProfileUpdate           = "user:profile:update"
-	UserSettingsRead            = "user:settings:read"
-	UserSettingsUpdate          = "user:settings:update"
-	UserRegistrationReportRead  = "user:registration-report:read"
-	UserPasswordChange          = "user:password:change"
+	UserProfileRead            = "user:profile:read"
+	UserProfileUpdate          = "user:profile:update"
+	UserSettingsRead           = "user:settings:read"
+	UserSettingsUpdate         = "user:settings:update"
+	UserRegistrationReportRead = "user:registration-report:read"
+	UserPasswordChange         = "user:password:change"
 
-	// core — broker
+	// broker-service — trading / MT5
 	BrokerAccountCreate         = "broker:account:create"
 	BrokerAccountRead           = "broker:account:read"
 	BrokerAccountUpdate         = "broker:account:update"
@@ -63,7 +77,20 @@ const (
 	BrokerPositionSync          = "broker:position:sync"
 	BrokerTradeReportRead       = "broker:trade:report:read"
 
-	// core — ticket
+	// broker-service — platform config (still owned by broker-service)
+	ConfigRead   = "config:read"
+	ConfigUpdate = "config:update"
+
+	// support-service — ticket (canonical fine-grained)
+	TicketReadKey   = "ticket.read"
+	TicketReplyKey  = "ticket.reply"
+	TicketAssignKey = "ticket.assign"
+	TicketCloseKey  = "ticket.close"
+	TicketListKey   = "ticket.list"
+	TicketCreateKey = "ticket.create"
+	TicketReportKey = "ticket.report.read"
+
+	// support-service — ticket (legacy colon aliases)
 	TicketCreate     = "ticket:create"
 	TicketRead       = "ticket:read"
 	TicketList       = "ticket:list"
@@ -71,43 +98,59 @@ const (
 	TicketClose      = "ticket:close"
 	TicketReportRead = "ticket:report:read"
 
-	// core — kyc
+	// support-service — department
+	DepartmentRead   = "department.read"
+	DepartmentManage = "department.manage"
+
+	// support-service — operator performance
+	SupportPerformanceRead  = "support.performance.read"
+	OperatorPerformanceRead = "operator_performance:read" // legacy colon alias
+
+	// kyc-service (canonical fine-grained)
+	KYCSubmissionListKey   = "kyc.submission.list"
+	KYCSubmissionReadKey   = "kyc.submission.read"
+	KYCDocumentReviewKey   = "kyc.document.review"
+	KYCSubmissionReviewKey = "kyc.submission.review"
+
+	// kyc-service (legacy colon aliases)
 	KYCSubmissionList   = "kyc:submission:list"
 	KYCSubmissionRead   = "kyc:submission:read"
 	KYCDocumentReview   = "kyc:document:review"
 	KYCSubmissionReview = "kyc:submission:review"
 
-	// core — bonus / config / operator
-	BonusCreate              = "bonus:create"
-	BonusRead                = "bonus:read"
-	BonusUpdate              = "bonus:update"
-	BonusDelete              = "bonus:delete"
-	ConfigRead               = "config:read"
-	ConfigUpdate             = "config:update"
-	OperatorPerformanceRead  = "operator_performance:read"
+	// bonus-service
+	BonusCreate = "bonus:create"
+	BonusRead   = "bonus:read"
+	BonusUpdate = "bonus:update"
+	BonusDelete = "bonus:delete"
+
+	// media-service
+	MediaAdminRead  = "media.admin.read"
+	MediaFileDelete = "media.file.delete"
+	MediaFileManage = "media.file.manage"
 
 	// wallet-service
-	WalletRead               = "wallet:read"
-	WalletTransactionRead    = "wallet:transaction:read"
-	WalletDepositRead        = "wallet:deposit:read"
-	WalletWithdrawRead       = "wallet:withdraw:read"
-	WalletWithdrawApprove    = "wallet:withdraw:approve"
-	WalletWithdrawReject     = "wallet:withdraw:reject"
-	WalletWithdrawProcess    = "wallet:withdraw:process"
-	WalletWithdrawSettings   = "wallet:withdraw:settings"
-	WalletWithdrawNetworks   = "wallet:withdraw:networks"
+	WalletRead             = "wallet:read"
+	WalletTransactionRead  = "wallet:transaction:read"
+	WalletDepositRead      = "wallet:deposit:read"
+	WalletWithdrawRead     = "wallet:withdraw:read"
+	WalletWithdrawApprove  = "wallet:withdraw:approve"
+	WalletWithdrawReject   = "wallet:withdraw:reject"
+	WalletWithdrawProcess  = "wallet:withdraw:process"
+	WalletWithdrawSettings = "wallet:withdraw:settings"
+	WalletWithdrawNetworks = "wallet:withdraw:networks"
 
 	// ib-service
-	IBRead            = "ib:read"
-	IBUpdate          = "ib:update"
-	IBApplicationRead = "ib:application:read"
+	IBRead               = "ib:read"
+	IBUpdate             = "ib:update"
+	IBApplicationRead    = "ib:application:read"
 	IBApplicationApprove = "ib:application:approve"
 	IBApplicationReject  = "ib:application:reject"
-	IBRankManage      = "ib:rank:manage"
-	IBCampaignManage  = "ib:campaign:manage"
-	IBRebateManage    = "ib:rebate:manage"
-	IBSettingsManage  = "ib:settings:manage"
-	IBReportRead      = "ib:report:read"
+	IBRankManage         = "ib:rank:manage"
+	IBCampaignManage     = "ib:campaign:manage"
+	IBRebateManage       = "ib:rebate:manage"
+	IBSettingsManage     = "ib:settings:manage"
+	IBReportRead         = "ib:report:read"
 
 	// notification-service
 	NotificationRead     = "notification:read"

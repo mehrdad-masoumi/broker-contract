@@ -1426,6 +1426,137 @@ func (x *VerifyTwoFactorCodeResponse) GetValid() bool {
 	return false
 }
 
+// ApplyKYCIdentityRequest is the minimal S2S payload from kyc-service after
+// personal-info sync. Do not add national IDs, document images, or other KYC PII.
+type ApplyKYCIdentityRequest struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	UserId      uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FullName    string                 `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	PhoneNumber string                 `protobuf:"bytes,3,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Nationality string                 `protobuf:"bytes,4,opt,name=nationality,proto3" json:"nationality,omitempty"`
+	CountryCode string                 `protobuf:"bytes,5,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
+	// Optional YYYY-MM-DD; empty means leave existing birthdate unchanged.
+	Birthdate     string `protobuf:"bytes,6,opt,name=birthdate,proto3" json:"birthdate,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApplyKYCIdentityRequest) Reset() {
+	*x = ApplyKYCIdentityRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApplyKYCIdentityRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApplyKYCIdentityRequest) ProtoMessage() {}
+
+func (x *ApplyKYCIdentityRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApplyKYCIdentityRequest.ProtoReflect.Descriptor instead.
+func (*ApplyKYCIdentityRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *ApplyKYCIdentityRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ApplyKYCIdentityRequest) GetFullName() string {
+	if x != nil {
+		return x.FullName
+	}
+	return ""
+}
+
+func (x *ApplyKYCIdentityRequest) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *ApplyKYCIdentityRequest) GetNationality() string {
+	if x != nil {
+		return x.Nationality
+	}
+	return ""
+}
+
+func (x *ApplyKYCIdentityRequest) GetCountryCode() string {
+	if x != nil {
+		return x.CountryCode
+	}
+	return ""
+}
+
+func (x *ApplyKYCIdentityRequest) GetBirthdate() string {
+	if x != nil {
+		return x.Birthdate
+	}
+	return ""
+}
+
+type ApplyKYCIdentityResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Applied       bool                   `protobuf:"varint,1,opt,name=applied,proto3" json:"applied,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApplyKYCIdentityResponse) Reset() {
+	*x = ApplyKYCIdentityResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApplyKYCIdentityResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApplyKYCIdentityResponse) ProtoMessage() {}
+
+func (x *ApplyKYCIdentityResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApplyKYCIdentityResponse.ProtoReflect.Descriptor instead.
+func (*ApplyKYCIdentityResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *ApplyKYCIdentityResponse) GetApplied() bool {
+	if x != nil {
+		return x.Applied
+	}
+	return false
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
@@ -1530,14 +1661,23 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x12\n" +
 	"\x04code\x18\x02 \x01(\tR\x04code\"3\n" +
 	"\x1bVerifyTwoFactorCodeResponse\x12\x14\n" +
-	"\x05valid\x18\x01 \x01(\bR\x05valid*\xd4\x01\n" +
+	"\x05valid\x18\x01 \x01(\bR\x05valid\"\xd5\x01\n" +
+	"\x17ApplyKYCIdentityRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x1b\n" +
+	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12!\n" +
+	"\fphone_number\x18\x03 \x01(\tR\vphoneNumber\x12 \n" +
+	"\vnationality\x18\x04 \x01(\tR\vnationality\x12!\n" +
+	"\fcountry_code\x18\x05 \x01(\tR\vcountryCode\x12\x1c\n" +
+	"\tbirthdate\x18\x06 \x01(\tR\tbirthdate\"4\n" +
+	"\x18ApplyKYCIdentityResponse\x12\x18\n" +
+	"\aapplied\x18\x01 \x01(\bR\aapplied*\xd4\x01\n" +
 	"\x0eProjectionType\x12\x1f\n" +
 	"\x1bPROJECTION_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15PROJECTION_TYPE_BASIC\x10\x01\x12 \n" +
 	"\x1cPROJECTION_TYPE_WITH_PROFILE\x10\x02\x12\x1e\n" +
 	"\x1aPROJECTION_TYPE_WITH_ROLES\x10\x03\x12*\n" +
 	"&PROJECTION_TYPE_WITH_PROFILE_AND_ROLES\x10\x04\x12\x18\n" +
-	"\x14PROJECTION_TYPE_FULL\x10\x052\xb7\x06\n" +
+	"\x14PROJECTION_TYPE_FULL\x10\x052\x90\a\n" +
 	"\vUserService\x12<\n" +
 	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x18.user.v1.GetUserResponse\x12?\n" +
 	"\bGetUsers\x12\x18.user.v1.GetUsersRequest\x1a\x19.user.v1.GetUsersResponse\x12Q\n" +
@@ -1547,7 +1687,8 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x19GetPermissionKeysByUserID\x12).user.v1.GetPermissionKeysByUserIDRequest\x1a*.user.v1.GetPermissionKeysByUserIDResponse\x12`\n" +
 	"\x13GetUserIDsByRoleIDs\x12#.user.v1.GetUserIDsByRoleIDsRequest\x1a$.user.v1.GetUserIDsByRoleIDsResponse\x12u\n" +
 	"\x1aGetUserIDsByPermissionKeys\x12*.user.v1.GetUserIDsByPermissionKeysRequest\x1a+.user.v1.GetUserIDsByPermissionKeysResponse\x12`\n" +
-	"\x13VerifyTwoFactorCode\x12#.user.v1.VerifyTwoFactorCodeRequest\x1a$.user.v1.VerifyTwoFactorCodeResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1b\x06proto3"
+	"\x13VerifyTwoFactorCode\x12#.user.v1.VerifyTwoFactorCodeRequest\x1a$.user.v1.VerifyTwoFactorCodeResponse\x12W\n" +
+	"\x10ApplyKYCIdentity\x12 .user.v1.ApplyKYCIdentityRequest\x1a!.user.v1.ApplyKYCIdentityResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -1562,7 +1703,7 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_user_v1_user_proto_goTypes = []any{
 	(ProjectionType)(0),                        // 0: user.v1.ProjectionType
 	(*Profile)(nil),                            // 1: user.v1.Profile
@@ -1589,8 +1730,10 @@ var file_user_v1_user_proto_goTypes = []any{
 	(*GetUserIDsByPermissionKeysResponse)(nil), // 22: user.v1.GetUserIDsByPermissionKeysResponse
 	(*VerifyTwoFactorCodeRequest)(nil),         // 23: user.v1.VerifyTwoFactorCodeRequest
 	(*VerifyTwoFactorCodeResponse)(nil),        // 24: user.v1.VerifyTwoFactorCodeResponse
-	nil,                                        // 25: user.v1.GetUsersResponse.UsersEntry
-	(*timestamppb.Timestamp)(nil),              // 26: google.protobuf.Timestamp
+	(*ApplyKYCIdentityRequest)(nil),            // 25: user.v1.ApplyKYCIdentityRequest
+	(*ApplyKYCIdentityResponse)(nil),           // 26: user.v1.ApplyKYCIdentityResponse
+	nil,                                        // 27: user.v1.GetUsersResponse.UsersEntry
+	(*timestamppb.Timestamp)(nil),              // 28: google.protobuf.Timestamp
 }
 var file_user_v1_user_proto_depIdxs = []int32{
 	1,  // 0: user.v1.User.profile:type_name -> user.v1.Profile
@@ -1598,12 +1741,12 @@ var file_user_v1_user_proto_depIdxs = []int32{
 	3,  // 2: user.v1.User.settings:type_name -> user.v1.Settings
 	4,  // 3: user.v1.User.two_factor:type_name -> user.v1.TwoFactor
 	5,  // 4: user.v1.User.hierarchy:type_name -> user.v1.Hierarchy
-	26, // 5: user.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	26, // 6: user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	28, // 5: user.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	28, // 6: user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 7: user.v1.GetUserRequest.projection:type_name -> user.v1.ProjectionType
 	6,  // 8: user.v1.GetUserResponse.user:type_name -> user.v1.User
 	0,  // 9: user.v1.GetUsersRequest.projection:type_name -> user.v1.ProjectionType
-	25, // 10: user.v1.GetUsersResponse.users:type_name -> user.v1.GetUsersResponse.UsersEntry
+	27, // 10: user.v1.GetUsersResponse.users:type_name -> user.v1.GetUsersResponse.UsersEntry
 	2,  // 11: user.v1.GetRolesByUserIDResponse.roles:type_name -> user.v1.Role
 	6,  // 12: user.v1.GetUsersResponse.UsersEntry.value:type_name -> user.v1.User
 	7,  // 13: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
@@ -1615,17 +1758,19 @@ var file_user_v1_user_proto_depIdxs = []int32{
 	19, // 19: user.v1.UserService.GetUserIDsByRoleIDs:input_type -> user.v1.GetUserIDsByRoleIDsRequest
 	21, // 20: user.v1.UserService.GetUserIDsByPermissionKeys:input_type -> user.v1.GetUserIDsByPermissionKeysRequest
 	23, // 21: user.v1.UserService.VerifyTwoFactorCode:input_type -> user.v1.VerifyTwoFactorCodeRequest
-	8,  // 22: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
-	10, // 23: user.v1.UserService.GetUsers:output_type -> user.v1.GetUsersResponse
-	12, // 24: user.v1.UserService.HasAdminAccess:output_type -> user.v1.HasAdminAccessResponse
-	14, // 25: user.v1.UserService.HasFullAccess:output_type -> user.v1.HasFullAccessResponse
-	16, // 26: user.v1.UserService.GetRolesByUserID:output_type -> user.v1.GetRolesByUserIDResponse
-	18, // 27: user.v1.UserService.GetPermissionKeysByUserID:output_type -> user.v1.GetPermissionKeysByUserIDResponse
-	20, // 28: user.v1.UserService.GetUserIDsByRoleIDs:output_type -> user.v1.GetUserIDsByRoleIDsResponse
-	22, // 29: user.v1.UserService.GetUserIDsByPermissionKeys:output_type -> user.v1.GetUserIDsByPermissionKeysResponse
-	24, // 30: user.v1.UserService.VerifyTwoFactorCode:output_type -> user.v1.VerifyTwoFactorCodeResponse
-	22, // [22:31] is the sub-list for method output_type
-	13, // [13:22] is the sub-list for method input_type
+	25, // 22: user.v1.UserService.ApplyKYCIdentity:input_type -> user.v1.ApplyKYCIdentityRequest
+	8,  // 23: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
+	10, // 24: user.v1.UserService.GetUsers:output_type -> user.v1.GetUsersResponse
+	12, // 25: user.v1.UserService.HasAdminAccess:output_type -> user.v1.HasAdminAccessResponse
+	14, // 26: user.v1.UserService.HasFullAccess:output_type -> user.v1.HasFullAccessResponse
+	16, // 27: user.v1.UserService.GetRolesByUserID:output_type -> user.v1.GetRolesByUserIDResponse
+	18, // 28: user.v1.UserService.GetPermissionKeysByUserID:output_type -> user.v1.GetPermissionKeysByUserIDResponse
+	20, // 29: user.v1.UserService.GetUserIDsByRoleIDs:output_type -> user.v1.GetUserIDsByRoleIDsResponse
+	22, // 30: user.v1.UserService.GetUserIDsByPermissionKeys:output_type -> user.v1.GetUserIDsByPermissionKeysResponse
+	24, // 31: user.v1.UserService.VerifyTwoFactorCode:output_type -> user.v1.VerifyTwoFactorCodeResponse
+	26, // 32: user.v1.UserService.ApplyKYCIdentity:output_type -> user.v1.ApplyKYCIdentityResponse
+	23, // [23:33] is the sub-list for method output_type
+	13, // [13:23] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
 	13, // [13:13] is the sub-list for extension extendee
 	0,  // [0:13] is the sub-list for field type_name
@@ -1642,7 +1787,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   25,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

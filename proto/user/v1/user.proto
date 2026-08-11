@@ -149,6 +149,22 @@ message VerifyTwoFactorCodeResponse {
   bool valid = 1;
 }
 
+// ApplyKYCIdentityRequest is the minimal S2S payload from kyc-service after
+// personal-info sync. Do not add national IDs, document images, or other KYC PII.
+message ApplyKYCIdentityRequest {
+  uint64 user_id = 1;
+  string full_name = 2;
+  string phone_number = 3;
+  string nationality = 4;
+  string country_code = 5;
+  // Optional YYYY-MM-DD; empty means leave existing birthdate unchanged.
+  string birthdate = 6;
+}
+
+message ApplyKYCIdentityResponse {
+  bool applied = 1;
+}
+
 // UserService is the sync S2S API for identity lookups and RBAC checks.
 service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
@@ -160,4 +176,6 @@ service UserService {
   rpc GetUserIDsByRoleIDs(GetUserIDsByRoleIDsRequest) returns (GetUserIDsByRoleIDsResponse);
   rpc GetUserIDsByPermissionKeys(GetUserIDsByPermissionKeysRequest) returns (GetUserIDsByPermissionKeysResponse);
   rpc VerifyTwoFactorCode(VerifyTwoFactorCodeRequest) returns (VerifyTwoFactorCodeResponse);
+  // ApplyKYCIdentity merges phone + profile fields from KYC into user-service SoT.
+  rpc ApplyKYCIdentity(ApplyKYCIdentityRequest) returns (ApplyKYCIdentityResponse);
 }

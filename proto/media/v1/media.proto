@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package media.v1;
+
+option go_package = "github.com/mehrdad-masoumi/broker-contract/gen/go/media/v1;mediav1";
+
+import "google/protobuf/timestamp.proto";
+
+// Typed S2S contracts for media-service upload/download lifecycle.
+//
+// Transport decision (v1.2.0): HTTP `/internal/media/*` remains the active
+// boundary used by kyc-service and other callers. These RPCs are published for
+// typed contract parity and a future gRPC migration; do not require callers to
+// switch until media-service exposes a gRPC listener.
+
+message CreateUploadRequest {
+  string owning_service = 1;
+  string domain = 2;
+  string purpose = 3;
+  int64 owner_user_id = 4;
+  string file_name = 5;
+  string content_type = 6;
+  int64 max_size_bytes = 7;
+  repeated string allowed_content_types = 8;
+  string created_by_service = 9;
+}
+
+message CreateUploadResponse {
+  string id = 1;
+  string object_key = 2;
+  string bucket = 3;
+  string upload_url = 4;
+  google.protobuf.Timestamp expires_at = 5;
+  string content_type = 6;
+  int64 max_size_bytes = 7;
+  string url = 8;
+}
+
+message CompleteUploadRequest {
+  string id = 1;
+  string checksum_sha256 = 2;
+  string content_type = 3;
+  int64 size_bytes = 4;
+}
+
+message FileMetadata {
+  string id = 1;
+  int64 owner_user_id = 2;
+  string owning_service = 3;
+  string domain = 4;
+  string purpose = 5;
+  string status = 6;
+  string bucket = 7;
+  string object_key = 8;
+  string content_type = 9;
+  int64 size_bytes = 10;
+  string file_name = 11;
+  string checksum_sha256 = 12;
+  string url = 13;
+  google.protobuf.Timestamp expires_at = 14;
+  google.protobuf.Timestamp completed_at = 15;
+  google.protobuf.Timestamp created_at = 16;
+}
+
+message GetFileMetadataRequest {
+  string id = 1;
+}
+
+message GetFileMetadataResponse {
+  FileMetadata file = 1;
+}
+
+message CreateDownloadURLRequest {
+  string id = 1;
+  int64 owner_user_id = 2;
+  string owning_service = 3;
+  string purpose = 4;
+}
+
+message CreateDownloadURLResponse {
+  string url = 1;
+  google.protobuf.Timestamp expires_at = 2;
+}
+
+message ValidateOwnershipRequest {
+  string id = 1;
+  int64 owner_user_id = 2;
+  string owning_service = 3;
+  string purpose = 4;
+}
+
+message ValidateOwnershipResponse {
+  bool valid = 1;
+}
+
+message DeleteFileRequest {
+  string id = 1;
+}
+
+message DeleteFileResponse {
+  bool deleted = 1;
+}
+
+service MediaService {
+  rpc CreateUpload(CreateUploadRequest) returns (CreateUploadResponse);
+  rpc CompleteUpload(CompleteUploadRequest) returns (FileMetadata);
+  rpc GetFileMetadata(GetFileMetadataRequest) returns (GetFileMetadataResponse);
+  rpc CreateDownloadURL(CreateDownloadURLRequest) returns (CreateDownloadURLResponse);
+  rpc ValidateOwnership(ValidateOwnershipRequest) returns (ValidateOwnershipResponse);
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+}

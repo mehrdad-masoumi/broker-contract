@@ -4,9 +4,13 @@ import "fmt"
 
 // All returns the full permission catalog across all services.
 func All() []Permission {
-	out := make([]Permission, 0, 128)
+	out := make([]Permission, 0, 160)
 	out = append(out, UserPermissions()...)
-	out = append(out, CorePermissions()...)
+	out = append(out, BrokerPermissions()...)
+	out = append(out, BonusPermissions()...)
+	out = append(out, KYCPermissions()...)
+	out = append(out, SupportPermissions()...)
+	out = append(out, MediaPermissions()...)
 	out = append(out, WalletPermissions()...)
 	out = append(out, IBPermissions()...)
 	out = append(out, NotificationPermissions()...)
@@ -15,7 +19,7 @@ func All() []Permission {
 
 // ByKey returns a map of key → Permission for the full catalog.
 func ByKey() map[string]Permission {
-	m := make(map[string]Permission, 128)
+	m := make(map[string]Permission, 160)
 	for _, p := range All() {
 		m[p.Key] = p
 	}
@@ -32,6 +36,9 @@ func ByRoute() map[string][]string {
 		}
 		m[p.Route] = append(m[p.Route], p.Key)
 	}
+	for route, key := range BonusExtraRoutes() {
+		m[route] = append(m[route], key)
+	}
 	return m
 }
 
@@ -47,6 +54,9 @@ func Validate(perms []Permission) error {
 		}
 		if p.Service == "" {
 			return fmt.Errorf("permission %q: service cannot be empty", p.Key)
+		}
+		if p.Service == "core" {
+			return fmt.Errorf("permission %q: service must not be generic %q", p.Key, "core")
 		}
 		if p.Module == "" {
 			return fmt.Errorf("permission %q: module cannot be empty", p.Key)

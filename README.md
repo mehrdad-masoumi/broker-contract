@@ -21,16 +21,41 @@ https://github.com/mehrdad-masoumi/broker-contract
 
 ```text
 broker-contract/
-  proto/notification/v1/notification.proto   # protobuf + gRPC service
-  gen/go/notification/v1/                    # generated Go (do not edit)
-  go/                                        # hand-written helpers (JSON command, validation)
-  schemas/notification.requested.v1.json     # RabbitMQ JSON Schema
-  examples/grpc/
-  examples/rabbitmq/
+  proto/notification/v1/notification.proto   # notification gRPC
+  proto/user/v1/user.proto                   # user gRPC (+ ApplyKYCIdentity)
+  proto/media/v1/media.proto                 # media typed S2S contracts
+  gen/go/                                    # generated Go (do not edit)
+  go/event/                                  # event envelopes + ownership catalog
+  permissions/                               # shared RBAC catalog (no Service: core)
+  schemas/                                   # RabbitMQ JSON Schema
+  examples/
   buf.yaml
   buf.gen.yaml
   Makefile
 ```
+
+## Media transport decision
+
+`proto/media/v1/media.proto` defines typed RPCs for CreateUpload, CompleteUpload,
+GetFileMetadata, CreateDownloadURL, ValidateOwnership, and DeleteFile.
+
+**Active boundary remains HTTP** `/internal/media/*` (used by kyc-service and
+other callers). Do not force a gRPC migration until media-service exposes a gRPC
+listener and callers are switched deliberately.
+
+## Versioning
+
+- Additive changes stay in `v1`
+- Breaking changes introduce `v2/` (proto + schema + routing key)
+- Permission catalog: fine-grained dotted keys are canonical; colon keys are
+  legacy aliases kept for JWT/role backward compatibility
+- Event catalog: legacy `KYC_*` / `TICKET_*` / `BONUS_*` aliases are preserved
+  until all consumers are verified migrated
+
+## Scope boundary
+
+This module contains **wire contracts only**. Ports, repositories, providers, and
+delivery workers belong in Notification Service (or other service repos).
 
 ## Semantic contract: `notification.requested.v1`
 
@@ -155,13 +180,3 @@ make proto
 
 Requires `protoc`, `protoc-gen-go`, and `protoc-gen-go-grpc` on `PATH`.
 On Windows you may point `PROTOC` at a local binary (see Makefile).
-
-## Versioning
-
-- Additive changes stay in `v1`
-- Breaking changes introduce `v2/` (proto + schema + routing key)
-
-## Scope boundary
-
-This module contains **wire contracts only**. Ports, repositories, providers, and
-delivery workers belong in Notification Service (or other service repos).
