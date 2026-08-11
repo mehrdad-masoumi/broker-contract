@@ -29,6 +29,8 @@ const (
 	UserService_GetUserIDsByPermissionKeys_FullMethodName = "/user.v1.UserService/GetUserIDsByPermissionKeys"
 	UserService_VerifyTwoFactorCode_FullMethodName        = "/user.v1.UserService/VerifyTwoFactorCode"
 	UserService_ApplyKYCIdentity_FullMethodName           = "/user.v1.UserService/ApplyKYCIdentity"
+	UserService_BeginStepUpVerification_FullMethodName    = "/user.v1.UserService/BeginStepUpVerification"
+	UserService_VerifyStepUpVerification_FullMethodName   = "/user.v1.UserService/VerifyStepUpVerification"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -48,6 +50,11 @@ type UserServiceClient interface {
 	VerifyTwoFactorCode(ctx context.Context, in *VerifyTwoFactorCodeRequest, opts ...grpc.CallOption) (*VerifyTwoFactorCodeResponse, error)
 	// ApplyKYCIdentity merges phone + profile fields from KYC into user-service SoT.
 	ApplyKYCIdentity(ctx context.Context, in *ApplyKYCIdentityRequest, opts ...grpc.CallOption) (*ApplyKYCIdentityResponse, error)
+	// BeginStepUpVerification starts TOTP or email-OTP verification for a purpose
+	// (e.g. broker trading-password reset). user-service owns OTP/TOTP + rate limits
+	// and publishes notification.requested.v1 for email delivery.
+	BeginStepUpVerification(ctx context.Context, in *BeginStepUpVerificationRequest, opts ...grpc.CallOption) (*BeginStepUpVerificationResponse, error)
+	VerifyStepUpVerification(ctx context.Context, in *VerifyStepUpVerificationRequest, opts ...grpc.CallOption) (*VerifyStepUpVerificationResponse, error)
 }
 
 type userServiceClient struct {
@@ -158,6 +165,26 @@ func (c *userServiceClient) ApplyKYCIdentity(ctx context.Context, in *ApplyKYCId
 	return out, nil
 }
 
+func (c *userServiceClient) BeginStepUpVerification(ctx context.Context, in *BeginStepUpVerificationRequest, opts ...grpc.CallOption) (*BeginStepUpVerificationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BeginStepUpVerificationResponse)
+	err := c.cc.Invoke(ctx, UserService_BeginStepUpVerification_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) VerifyStepUpVerification(ctx context.Context, in *VerifyStepUpVerificationRequest, opts ...grpc.CallOption) (*VerifyStepUpVerificationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VerifyStepUpVerificationResponse)
+	err := c.cc.Invoke(ctx, UserService_VerifyStepUpVerification_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -175,6 +202,11 @@ type UserServiceServer interface {
 	VerifyTwoFactorCode(context.Context, *VerifyTwoFactorCodeRequest) (*VerifyTwoFactorCodeResponse, error)
 	// ApplyKYCIdentity merges phone + profile fields from KYC into user-service SoT.
 	ApplyKYCIdentity(context.Context, *ApplyKYCIdentityRequest) (*ApplyKYCIdentityResponse, error)
+	// BeginStepUpVerification starts TOTP or email-OTP verification for a purpose
+	// (e.g. broker trading-password reset). user-service owns OTP/TOTP + rate limits
+	// and publishes notification.requested.v1 for email delivery.
+	BeginStepUpVerification(context.Context, *BeginStepUpVerificationRequest) (*BeginStepUpVerificationResponse, error)
+	VerifyStepUpVerification(context.Context, *VerifyStepUpVerificationRequest) (*VerifyStepUpVerificationResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -214,6 +246,12 @@ func (UnimplementedUserServiceServer) VerifyTwoFactorCode(context.Context, *Veri
 }
 func (UnimplementedUserServiceServer) ApplyKYCIdentity(context.Context, *ApplyKYCIdentityRequest) (*ApplyKYCIdentityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ApplyKYCIdentity not implemented")
+}
+func (UnimplementedUserServiceServer) BeginStepUpVerification(context.Context, *BeginStepUpVerificationRequest) (*BeginStepUpVerificationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BeginStepUpVerification not implemented")
+}
+func (UnimplementedUserServiceServer) VerifyStepUpVerification(context.Context, *VerifyStepUpVerificationRequest) (*VerifyStepUpVerificationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyStepUpVerification not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -416,6 +454,42 @@ func _UserService_ApplyKYCIdentity_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_BeginStepUpVerification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BeginStepUpVerificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).BeginStepUpVerification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_BeginStepUpVerification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).BeginStepUpVerification(ctx, req.(*BeginStepUpVerificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_VerifyStepUpVerification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyStepUpVerificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).VerifyStepUpVerification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_VerifyStepUpVerification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).VerifyStepUpVerification(ctx, req.(*VerifyStepUpVerificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -462,6 +536,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ApplyKYCIdentity",
 			Handler:    _UserService_ApplyKYCIdentity_Handler,
+		},
+		{
+			MethodName: "BeginStepUpVerification",
+			Handler:    _UserService_BeginStepUpVerification_Handler,
+		},
+		{
+			MethodName: "VerifyStepUpVerification",
+			Handler:    _UserService_VerifyStepUpVerification_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

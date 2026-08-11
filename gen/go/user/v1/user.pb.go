@@ -81,6 +81,104 @@ func (ProjectionType) EnumDescriptor() ([]byte, []int) {
 	return file_user_v1_user_proto_rawDescGZIP(), []int{0}
 }
 
+// StepUpPurpose identifies the business flow requesting second-factor verification.
+// Wire string for RESET_TRADING_PASSWORD is "broker.reset_trading_password".
+type StepUpPurpose int32
+
+const (
+	StepUpPurpose_STEP_UP_PURPOSE_UNSPECIFIED            StepUpPurpose = 0
+	StepUpPurpose_STEP_UP_PURPOSE_RESET_TRADING_PASSWORD StepUpPurpose = 1
+)
+
+// Enum value maps for StepUpPurpose.
+var (
+	StepUpPurpose_name = map[int32]string{
+		0: "STEP_UP_PURPOSE_UNSPECIFIED",
+		1: "STEP_UP_PURPOSE_RESET_TRADING_PASSWORD",
+	}
+	StepUpPurpose_value = map[string]int32{
+		"STEP_UP_PURPOSE_UNSPECIFIED":            0,
+		"STEP_UP_PURPOSE_RESET_TRADING_PASSWORD": 1,
+	}
+)
+
+func (x StepUpPurpose) Enum() *StepUpPurpose {
+	p := new(StepUpPurpose)
+	*p = x
+	return p
+}
+
+func (x StepUpPurpose) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (StepUpPurpose) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_v1_user_proto_enumTypes[1].Descriptor()
+}
+
+func (StepUpPurpose) Type() protoreflect.EnumType {
+	return &file_user_v1_user_proto_enumTypes[1]
+}
+
+func (x StepUpPurpose) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use StepUpPurpose.Descriptor instead.
+func (StepUpPurpose) EnumDescriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{1}
+}
+
+// StepUpMethod is how the client must satisfy the challenge.
+type StepUpMethod int32
+
+const (
+	StepUpMethod_STEP_UP_METHOD_UNSPECIFIED StepUpMethod = 0
+	StepUpMethod_STEP_UP_METHOD_TOTP        StepUpMethod = 1
+	StepUpMethod_STEP_UP_METHOD_EMAIL_OTP   StepUpMethod = 2
+)
+
+// Enum value maps for StepUpMethod.
+var (
+	StepUpMethod_name = map[int32]string{
+		0: "STEP_UP_METHOD_UNSPECIFIED",
+		1: "STEP_UP_METHOD_TOTP",
+		2: "STEP_UP_METHOD_EMAIL_OTP",
+	}
+	StepUpMethod_value = map[string]int32{
+		"STEP_UP_METHOD_UNSPECIFIED": 0,
+		"STEP_UP_METHOD_TOTP":        1,
+		"STEP_UP_METHOD_EMAIL_OTP":   2,
+	}
+)
+
+func (x StepUpMethod) Enum() *StepUpMethod {
+	p := new(StepUpMethod)
+	*p = x
+	return p
+}
+
+func (x StepUpMethod) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (StepUpMethod) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_v1_user_proto_enumTypes[2].Descriptor()
+}
+
+func (StepUpMethod) Type() protoreflect.EnumType {
+	return &file_user_v1_user_proto_enumTypes[2]
+}
+
+func (x StepUpMethod) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use StepUpMethod.Descriptor instead.
+func (StepUpMethod) EnumDescriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{2}
+}
+
 type Profile struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -1557,6 +1655,230 @@ func (x *ApplyKYCIdentityResponse) GetApplied() bool {
 	return false
 }
 
+type BeginStepUpVerificationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Purpose       StepUpPurpose          `protobuf:"varint,2,opt,name=purpose,proto3,enum=user.v1.StepUpPurpose" json:"purpose,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BeginStepUpVerificationRequest) Reset() {
+	*x = BeginStepUpVerificationRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BeginStepUpVerificationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BeginStepUpVerificationRequest) ProtoMessage() {}
+
+func (x *BeginStepUpVerificationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BeginStepUpVerificationRequest.ProtoReflect.Descriptor instead.
+func (*BeginStepUpVerificationRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *BeginStepUpVerificationRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *BeginStepUpVerificationRequest) GetPurpose() StepUpPurpose {
+	if x != nil {
+		return x.Purpose
+	}
+	return StepUpPurpose_STEP_UP_PURPOSE_UNSPECIFIED
+}
+
+type BeginStepUpVerificationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ChallengeId   string                 `protobuf:"bytes,1,opt,name=challenge_id,json=challengeId,proto3" json:"challenge_id,omitempty"`
+	Method        StepUpMethod           `protobuf:"varint,2,opt,name=method,proto3,enum=user.v1.StepUpMethod" json:"method,omitempty"`
+	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BeginStepUpVerificationResponse) Reset() {
+	*x = BeginStepUpVerificationResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BeginStepUpVerificationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BeginStepUpVerificationResponse) ProtoMessage() {}
+
+func (x *BeginStepUpVerificationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BeginStepUpVerificationResponse.ProtoReflect.Descriptor instead.
+func (*BeginStepUpVerificationResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *BeginStepUpVerificationResponse) GetChallengeId() string {
+	if x != nil {
+		return x.ChallengeId
+	}
+	return ""
+}
+
+func (x *BeginStepUpVerificationResponse) GetMethod() StepUpMethod {
+	if x != nil {
+		return x.Method
+	}
+	return StepUpMethod_STEP_UP_METHOD_UNSPECIFIED
+}
+
+func (x *BeginStepUpVerificationResponse) GetExpiresAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
+type VerifyStepUpVerificationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ChallengeId   string                 `protobuf:"bytes,2,opt,name=challenge_id,json=challengeId,proto3" json:"challenge_id,omitempty"`
+	Purpose       StepUpPurpose          `protobuf:"varint,3,opt,name=purpose,proto3,enum=user.v1.StepUpPurpose" json:"purpose,omitempty"`
+	Code          string                 `protobuf:"bytes,4,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyStepUpVerificationRequest) Reset() {
+	*x = VerifyStepUpVerificationRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyStepUpVerificationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyStepUpVerificationRequest) ProtoMessage() {}
+
+func (x *VerifyStepUpVerificationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyStepUpVerificationRequest.ProtoReflect.Descriptor instead.
+func (*VerifyStepUpVerificationRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *VerifyStepUpVerificationRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *VerifyStepUpVerificationRequest) GetChallengeId() string {
+	if x != nil {
+		return x.ChallengeId
+	}
+	return ""
+}
+
+func (x *VerifyStepUpVerificationRequest) GetPurpose() StepUpPurpose {
+	if x != nil {
+		return x.Purpose
+	}
+	return StepUpPurpose_STEP_UP_PURPOSE_UNSPECIFIED
+}
+
+func (x *VerifyStepUpVerificationRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type VerifyStepUpVerificationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Verified      bool                   `protobuf:"varint,1,opt,name=verified,proto3" json:"verified,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyStepUpVerificationResponse) Reset() {
+	*x = VerifyStepUpVerificationResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyStepUpVerificationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyStepUpVerificationResponse) ProtoMessage() {}
+
+func (x *VerifyStepUpVerificationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyStepUpVerificationResponse.ProtoReflect.Descriptor instead.
+func (*VerifyStepUpVerificationResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *VerifyStepUpVerificationResponse) GetVerified() bool {
+	if x != nil {
+		return x.Verified
+	}
+	return false
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
@@ -1670,14 +1992,36 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\fcountry_code\x18\x05 \x01(\tR\vcountryCode\x12\x1c\n" +
 	"\tbirthdate\x18\x06 \x01(\tR\tbirthdate\"4\n" +
 	"\x18ApplyKYCIdentityResponse\x12\x18\n" +
-	"\aapplied\x18\x01 \x01(\bR\aapplied*\xd4\x01\n" +
+	"\aapplied\x18\x01 \x01(\bR\aapplied\"k\n" +
+	"\x1eBeginStepUpVerificationRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x120\n" +
+	"\apurpose\x18\x02 \x01(\x0e2\x16.user.v1.StepUpPurposeR\apurpose\"\xae\x01\n" +
+	"\x1fBeginStepUpVerificationResponse\x12!\n" +
+	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\x12-\n" +
+	"\x06method\x18\x02 \x01(\x0e2\x15.user.v1.StepUpMethodR\x06method\x129\n" +
+	"\n" +
+	"expires_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xa3\x01\n" +
+	"\x1fVerifyStepUpVerificationRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12!\n" +
+	"\fchallenge_id\x18\x02 \x01(\tR\vchallengeId\x120\n" +
+	"\apurpose\x18\x03 \x01(\x0e2\x16.user.v1.StepUpPurposeR\apurpose\x12\x12\n" +
+	"\x04code\x18\x04 \x01(\tR\x04code\">\n" +
+	" VerifyStepUpVerificationResponse\x12\x1a\n" +
+	"\bverified\x18\x01 \x01(\bR\bverified*\xd4\x01\n" +
 	"\x0eProjectionType\x12\x1f\n" +
 	"\x1bPROJECTION_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15PROJECTION_TYPE_BASIC\x10\x01\x12 \n" +
 	"\x1cPROJECTION_TYPE_WITH_PROFILE\x10\x02\x12\x1e\n" +
 	"\x1aPROJECTION_TYPE_WITH_ROLES\x10\x03\x12*\n" +
 	"&PROJECTION_TYPE_WITH_PROFILE_AND_ROLES\x10\x04\x12\x18\n" +
-	"\x14PROJECTION_TYPE_FULL\x10\x052\x90\a\n" +
+	"\x14PROJECTION_TYPE_FULL\x10\x05*\\\n" +
+	"\rStepUpPurpose\x12\x1f\n" +
+	"\x1bSTEP_UP_PURPOSE_UNSPECIFIED\x10\x00\x12*\n" +
+	"&STEP_UP_PURPOSE_RESET_TRADING_PASSWORD\x10\x01*e\n" +
+	"\fStepUpMethod\x12\x1e\n" +
+	"\x1aSTEP_UP_METHOD_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13STEP_UP_METHOD_TOTP\x10\x01\x12\x1c\n" +
+	"\x18STEP_UP_METHOD_EMAIL_OTP\x10\x022\xef\b\n" +
 	"\vUserService\x12<\n" +
 	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x18.user.v1.GetUserResponse\x12?\n" +
 	"\bGetUsers\x12\x18.user.v1.GetUsersRequest\x1a\x19.user.v1.GetUsersResponse\x12Q\n" +
@@ -1688,7 +2032,9 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x13GetUserIDsByRoleIDs\x12#.user.v1.GetUserIDsByRoleIDsRequest\x1a$.user.v1.GetUserIDsByRoleIDsResponse\x12u\n" +
 	"\x1aGetUserIDsByPermissionKeys\x12*.user.v1.GetUserIDsByPermissionKeysRequest\x1a+.user.v1.GetUserIDsByPermissionKeysResponse\x12`\n" +
 	"\x13VerifyTwoFactorCode\x12#.user.v1.VerifyTwoFactorCodeRequest\x1a$.user.v1.VerifyTwoFactorCodeResponse\x12W\n" +
-	"\x10ApplyKYCIdentity\x12 .user.v1.ApplyKYCIdentityRequest\x1a!.user.v1.ApplyKYCIdentityResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1b\x06proto3"
+	"\x10ApplyKYCIdentity\x12 .user.v1.ApplyKYCIdentityRequest\x1a!.user.v1.ApplyKYCIdentityResponse\x12l\n" +
+	"\x17BeginStepUpVerification\x12'.user.v1.BeginStepUpVerificationRequest\x1a(.user.v1.BeginStepUpVerificationResponse\x12o\n" +
+	"\x18VerifyStepUpVerification\x12(.user.v1.VerifyStepUpVerificationRequest\x1a).user.v1.VerifyStepUpVerificationResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -1702,78 +2048,92 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_user_v1_user_proto_rawDescData
 }
 
-var file_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
+var file_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
 var file_user_v1_user_proto_goTypes = []any{
 	(ProjectionType)(0),                        // 0: user.v1.ProjectionType
-	(*Profile)(nil),                            // 1: user.v1.Profile
-	(*Role)(nil),                               // 2: user.v1.Role
-	(*Settings)(nil),                           // 3: user.v1.Settings
-	(*TwoFactor)(nil),                          // 4: user.v1.TwoFactor
-	(*Hierarchy)(nil),                          // 5: user.v1.Hierarchy
-	(*User)(nil),                               // 6: user.v1.User
-	(*GetUserRequest)(nil),                     // 7: user.v1.GetUserRequest
-	(*GetUserResponse)(nil),                    // 8: user.v1.GetUserResponse
-	(*GetUsersRequest)(nil),                    // 9: user.v1.GetUsersRequest
-	(*GetUsersResponse)(nil),                   // 10: user.v1.GetUsersResponse
-	(*HasAdminAccessRequest)(nil),              // 11: user.v1.HasAdminAccessRequest
-	(*HasAdminAccessResponse)(nil),             // 12: user.v1.HasAdminAccessResponse
-	(*HasFullAccessRequest)(nil),               // 13: user.v1.HasFullAccessRequest
-	(*HasFullAccessResponse)(nil),              // 14: user.v1.HasFullAccessResponse
-	(*GetRolesByUserIDRequest)(nil),            // 15: user.v1.GetRolesByUserIDRequest
-	(*GetRolesByUserIDResponse)(nil),           // 16: user.v1.GetRolesByUserIDResponse
-	(*GetPermissionKeysByUserIDRequest)(nil),   // 17: user.v1.GetPermissionKeysByUserIDRequest
-	(*GetPermissionKeysByUserIDResponse)(nil),  // 18: user.v1.GetPermissionKeysByUserIDResponse
-	(*GetUserIDsByRoleIDsRequest)(nil),         // 19: user.v1.GetUserIDsByRoleIDsRequest
-	(*GetUserIDsByRoleIDsResponse)(nil),        // 20: user.v1.GetUserIDsByRoleIDsResponse
-	(*GetUserIDsByPermissionKeysRequest)(nil),  // 21: user.v1.GetUserIDsByPermissionKeysRequest
-	(*GetUserIDsByPermissionKeysResponse)(nil), // 22: user.v1.GetUserIDsByPermissionKeysResponse
-	(*VerifyTwoFactorCodeRequest)(nil),         // 23: user.v1.VerifyTwoFactorCodeRequest
-	(*VerifyTwoFactorCodeResponse)(nil),        // 24: user.v1.VerifyTwoFactorCodeResponse
-	(*ApplyKYCIdentityRequest)(nil),            // 25: user.v1.ApplyKYCIdentityRequest
-	(*ApplyKYCIdentityResponse)(nil),           // 26: user.v1.ApplyKYCIdentityResponse
-	nil,                                        // 27: user.v1.GetUsersResponse.UsersEntry
-	(*timestamppb.Timestamp)(nil),              // 28: google.protobuf.Timestamp
+	(StepUpPurpose)(0),                         // 1: user.v1.StepUpPurpose
+	(StepUpMethod)(0),                          // 2: user.v1.StepUpMethod
+	(*Profile)(nil),                            // 3: user.v1.Profile
+	(*Role)(nil),                               // 4: user.v1.Role
+	(*Settings)(nil),                           // 5: user.v1.Settings
+	(*TwoFactor)(nil),                          // 6: user.v1.TwoFactor
+	(*Hierarchy)(nil),                          // 7: user.v1.Hierarchy
+	(*User)(nil),                               // 8: user.v1.User
+	(*GetUserRequest)(nil),                     // 9: user.v1.GetUserRequest
+	(*GetUserResponse)(nil),                    // 10: user.v1.GetUserResponse
+	(*GetUsersRequest)(nil),                    // 11: user.v1.GetUsersRequest
+	(*GetUsersResponse)(nil),                   // 12: user.v1.GetUsersResponse
+	(*HasAdminAccessRequest)(nil),              // 13: user.v1.HasAdminAccessRequest
+	(*HasAdminAccessResponse)(nil),             // 14: user.v1.HasAdminAccessResponse
+	(*HasFullAccessRequest)(nil),               // 15: user.v1.HasFullAccessRequest
+	(*HasFullAccessResponse)(nil),              // 16: user.v1.HasFullAccessResponse
+	(*GetRolesByUserIDRequest)(nil),            // 17: user.v1.GetRolesByUserIDRequest
+	(*GetRolesByUserIDResponse)(nil),           // 18: user.v1.GetRolesByUserIDResponse
+	(*GetPermissionKeysByUserIDRequest)(nil),   // 19: user.v1.GetPermissionKeysByUserIDRequest
+	(*GetPermissionKeysByUserIDResponse)(nil),  // 20: user.v1.GetPermissionKeysByUserIDResponse
+	(*GetUserIDsByRoleIDsRequest)(nil),         // 21: user.v1.GetUserIDsByRoleIDsRequest
+	(*GetUserIDsByRoleIDsResponse)(nil),        // 22: user.v1.GetUserIDsByRoleIDsResponse
+	(*GetUserIDsByPermissionKeysRequest)(nil),  // 23: user.v1.GetUserIDsByPermissionKeysRequest
+	(*GetUserIDsByPermissionKeysResponse)(nil), // 24: user.v1.GetUserIDsByPermissionKeysResponse
+	(*VerifyTwoFactorCodeRequest)(nil),         // 25: user.v1.VerifyTwoFactorCodeRequest
+	(*VerifyTwoFactorCodeResponse)(nil),        // 26: user.v1.VerifyTwoFactorCodeResponse
+	(*ApplyKYCIdentityRequest)(nil),            // 27: user.v1.ApplyKYCIdentityRequest
+	(*ApplyKYCIdentityResponse)(nil),           // 28: user.v1.ApplyKYCIdentityResponse
+	(*BeginStepUpVerificationRequest)(nil),     // 29: user.v1.BeginStepUpVerificationRequest
+	(*BeginStepUpVerificationResponse)(nil),    // 30: user.v1.BeginStepUpVerificationResponse
+	(*VerifyStepUpVerificationRequest)(nil),    // 31: user.v1.VerifyStepUpVerificationRequest
+	(*VerifyStepUpVerificationResponse)(nil),   // 32: user.v1.VerifyStepUpVerificationResponse
+	nil,                                        // 33: user.v1.GetUsersResponse.UsersEntry
+	(*timestamppb.Timestamp)(nil),              // 34: google.protobuf.Timestamp
 }
 var file_user_v1_user_proto_depIdxs = []int32{
-	1,  // 0: user.v1.User.profile:type_name -> user.v1.Profile
-	2,  // 1: user.v1.User.roles:type_name -> user.v1.Role
-	3,  // 2: user.v1.User.settings:type_name -> user.v1.Settings
-	4,  // 3: user.v1.User.two_factor:type_name -> user.v1.TwoFactor
-	5,  // 4: user.v1.User.hierarchy:type_name -> user.v1.Hierarchy
-	28, // 5: user.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	28, // 6: user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	3,  // 0: user.v1.User.profile:type_name -> user.v1.Profile
+	4,  // 1: user.v1.User.roles:type_name -> user.v1.Role
+	5,  // 2: user.v1.User.settings:type_name -> user.v1.Settings
+	6,  // 3: user.v1.User.two_factor:type_name -> user.v1.TwoFactor
+	7,  // 4: user.v1.User.hierarchy:type_name -> user.v1.Hierarchy
+	34, // 5: user.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	34, // 6: user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 7: user.v1.GetUserRequest.projection:type_name -> user.v1.ProjectionType
-	6,  // 8: user.v1.GetUserResponse.user:type_name -> user.v1.User
+	8,  // 8: user.v1.GetUserResponse.user:type_name -> user.v1.User
 	0,  // 9: user.v1.GetUsersRequest.projection:type_name -> user.v1.ProjectionType
-	27, // 10: user.v1.GetUsersResponse.users:type_name -> user.v1.GetUsersResponse.UsersEntry
-	2,  // 11: user.v1.GetRolesByUserIDResponse.roles:type_name -> user.v1.Role
-	6,  // 12: user.v1.GetUsersResponse.UsersEntry.value:type_name -> user.v1.User
-	7,  // 13: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
-	9,  // 14: user.v1.UserService.GetUsers:input_type -> user.v1.GetUsersRequest
-	11, // 15: user.v1.UserService.HasAdminAccess:input_type -> user.v1.HasAdminAccessRequest
-	13, // 16: user.v1.UserService.HasFullAccess:input_type -> user.v1.HasFullAccessRequest
-	15, // 17: user.v1.UserService.GetRolesByUserID:input_type -> user.v1.GetRolesByUserIDRequest
-	17, // 18: user.v1.UserService.GetPermissionKeysByUserID:input_type -> user.v1.GetPermissionKeysByUserIDRequest
-	19, // 19: user.v1.UserService.GetUserIDsByRoleIDs:input_type -> user.v1.GetUserIDsByRoleIDsRequest
-	21, // 20: user.v1.UserService.GetUserIDsByPermissionKeys:input_type -> user.v1.GetUserIDsByPermissionKeysRequest
-	23, // 21: user.v1.UserService.VerifyTwoFactorCode:input_type -> user.v1.VerifyTwoFactorCodeRequest
-	25, // 22: user.v1.UserService.ApplyKYCIdentity:input_type -> user.v1.ApplyKYCIdentityRequest
-	8,  // 23: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
-	10, // 24: user.v1.UserService.GetUsers:output_type -> user.v1.GetUsersResponse
-	12, // 25: user.v1.UserService.HasAdminAccess:output_type -> user.v1.HasAdminAccessResponse
-	14, // 26: user.v1.UserService.HasFullAccess:output_type -> user.v1.HasFullAccessResponse
-	16, // 27: user.v1.UserService.GetRolesByUserID:output_type -> user.v1.GetRolesByUserIDResponse
-	18, // 28: user.v1.UserService.GetPermissionKeysByUserID:output_type -> user.v1.GetPermissionKeysByUserIDResponse
-	20, // 29: user.v1.UserService.GetUserIDsByRoleIDs:output_type -> user.v1.GetUserIDsByRoleIDsResponse
-	22, // 30: user.v1.UserService.GetUserIDsByPermissionKeys:output_type -> user.v1.GetUserIDsByPermissionKeysResponse
-	24, // 31: user.v1.UserService.VerifyTwoFactorCode:output_type -> user.v1.VerifyTwoFactorCodeResponse
-	26, // 32: user.v1.UserService.ApplyKYCIdentity:output_type -> user.v1.ApplyKYCIdentityResponse
-	23, // [23:33] is the sub-list for method output_type
-	13, // [13:23] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	33, // 10: user.v1.GetUsersResponse.users:type_name -> user.v1.GetUsersResponse.UsersEntry
+	4,  // 11: user.v1.GetRolesByUserIDResponse.roles:type_name -> user.v1.Role
+	1,  // 12: user.v1.BeginStepUpVerificationRequest.purpose:type_name -> user.v1.StepUpPurpose
+	2,  // 13: user.v1.BeginStepUpVerificationResponse.method:type_name -> user.v1.StepUpMethod
+	34, // 14: user.v1.BeginStepUpVerificationResponse.expires_at:type_name -> google.protobuf.Timestamp
+	1,  // 15: user.v1.VerifyStepUpVerificationRequest.purpose:type_name -> user.v1.StepUpPurpose
+	8,  // 16: user.v1.GetUsersResponse.UsersEntry.value:type_name -> user.v1.User
+	9,  // 17: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
+	11, // 18: user.v1.UserService.GetUsers:input_type -> user.v1.GetUsersRequest
+	13, // 19: user.v1.UserService.HasAdminAccess:input_type -> user.v1.HasAdminAccessRequest
+	15, // 20: user.v1.UserService.HasFullAccess:input_type -> user.v1.HasFullAccessRequest
+	17, // 21: user.v1.UserService.GetRolesByUserID:input_type -> user.v1.GetRolesByUserIDRequest
+	19, // 22: user.v1.UserService.GetPermissionKeysByUserID:input_type -> user.v1.GetPermissionKeysByUserIDRequest
+	21, // 23: user.v1.UserService.GetUserIDsByRoleIDs:input_type -> user.v1.GetUserIDsByRoleIDsRequest
+	23, // 24: user.v1.UserService.GetUserIDsByPermissionKeys:input_type -> user.v1.GetUserIDsByPermissionKeysRequest
+	25, // 25: user.v1.UserService.VerifyTwoFactorCode:input_type -> user.v1.VerifyTwoFactorCodeRequest
+	27, // 26: user.v1.UserService.ApplyKYCIdentity:input_type -> user.v1.ApplyKYCIdentityRequest
+	29, // 27: user.v1.UserService.BeginStepUpVerification:input_type -> user.v1.BeginStepUpVerificationRequest
+	31, // 28: user.v1.UserService.VerifyStepUpVerification:input_type -> user.v1.VerifyStepUpVerificationRequest
+	10, // 29: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
+	12, // 30: user.v1.UserService.GetUsers:output_type -> user.v1.GetUsersResponse
+	14, // 31: user.v1.UserService.HasAdminAccess:output_type -> user.v1.HasAdminAccessResponse
+	16, // 32: user.v1.UserService.HasFullAccess:output_type -> user.v1.HasFullAccessResponse
+	18, // 33: user.v1.UserService.GetRolesByUserID:output_type -> user.v1.GetRolesByUserIDResponse
+	20, // 34: user.v1.UserService.GetPermissionKeysByUserID:output_type -> user.v1.GetPermissionKeysByUserIDResponse
+	22, // 35: user.v1.UserService.GetUserIDsByRoleIDs:output_type -> user.v1.GetUserIDsByRoleIDsResponse
+	24, // 36: user.v1.UserService.GetUserIDsByPermissionKeys:output_type -> user.v1.GetUserIDsByPermissionKeysResponse
+	26, // 37: user.v1.UserService.VerifyTwoFactorCode:output_type -> user.v1.VerifyTwoFactorCodeResponse
+	28, // 38: user.v1.UserService.ApplyKYCIdentity:output_type -> user.v1.ApplyKYCIdentityResponse
+	30, // 39: user.v1.UserService.BeginStepUpVerification:output_type -> user.v1.BeginStepUpVerificationResponse
+	32, // 40: user.v1.UserService.VerifyStepUpVerification:output_type -> user.v1.VerifyStepUpVerificationResponse
+	29, // [29:41] is the sub-list for method output_type
+	17, // [17:29] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_user_v1_user_proto_init() }
@@ -1786,8 +2146,8 @@ func file_user_v1_user_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   27,
+			NumEnums:      3,
+			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
