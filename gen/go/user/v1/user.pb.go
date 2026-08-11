@@ -1242,6 +1242,190 @@ func (x *GetUserIDsByRoleIDsResponse) GetUserIds() []uint64 {
 	return nil
 }
 
+type GetUserIDsByPermissionKeysRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	PermissionKeys []string               `protobuf:"bytes,1,rep,name=permission_keys,json=permissionKeys,proto3" json:"permission_keys,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetUserIDsByPermissionKeysRequest) Reset() {
+	*x = GetUserIDsByPermissionKeysRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserIDsByPermissionKeysRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserIDsByPermissionKeysRequest) ProtoMessage() {}
+
+func (x *GetUserIDsByPermissionKeysRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserIDsByPermissionKeysRequest.ProtoReflect.Descriptor instead.
+func (*GetUserIDsByPermissionKeysRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetUserIDsByPermissionKeysRequest) GetPermissionKeys() []string {
+	if x != nil {
+		return x.PermissionKeys
+	}
+	return nil
+}
+
+type GetUserIDsByPermissionKeysResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserIds       []uint64               `protobuf:"varint,1,rep,packed,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserIDsByPermissionKeysResponse) Reset() {
+	*x = GetUserIDsByPermissionKeysResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserIDsByPermissionKeysResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserIDsByPermissionKeysResponse) ProtoMessage() {}
+
+func (x *GetUserIDsByPermissionKeysResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserIDsByPermissionKeysResponse.ProtoReflect.Descriptor instead.
+func (*GetUserIDsByPermissionKeysResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *GetUserIDsByPermissionKeysResponse) GetUserIds() []uint64 {
+	if x != nil {
+		return x.UserIds
+	}
+	return nil
+}
+
+type VerifyTwoFactorCodeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyTwoFactorCodeRequest) Reset() {
+	*x = VerifyTwoFactorCodeRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyTwoFactorCodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyTwoFactorCodeRequest) ProtoMessage() {}
+
+func (x *VerifyTwoFactorCodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyTwoFactorCodeRequest.ProtoReflect.Descriptor instead.
+func (*VerifyTwoFactorCodeRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *VerifyTwoFactorCodeRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *VerifyTwoFactorCodeRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type VerifyTwoFactorCodeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Valid         bool                   `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyTwoFactorCodeResponse) Reset() {
+	*x = VerifyTwoFactorCodeResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyTwoFactorCodeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyTwoFactorCodeResponse) ProtoMessage() {}
+
+func (x *VerifyTwoFactorCodeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyTwoFactorCodeResponse.ProtoReflect.Descriptor instead.
+func (*VerifyTwoFactorCodeResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *VerifyTwoFactorCodeResponse) GetValid() bool {
+	if x != nil {
+		return x.Valid
+	}
+	return false
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
@@ -1337,14 +1521,23 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x1aGetUserIDsByRoleIDsRequest\x12\x19\n" +
 	"\brole_ids\x18\x01 \x03(\tR\aroleIds\"8\n" +
 	"\x1bGetUserIDsByRoleIDsResponse\x12\x19\n" +
-	"\buser_ids\x18\x01 \x03(\x04R\auserIds*\xd4\x01\n" +
+	"\buser_ids\x18\x01 \x03(\x04R\auserIds\"L\n" +
+	"!GetUserIDsByPermissionKeysRequest\x12'\n" +
+	"\x0fpermission_keys\x18\x01 \x03(\tR\x0epermissionKeys\"?\n" +
+	"\"GetUserIDsByPermissionKeysResponse\x12\x19\n" +
+	"\buser_ids\x18\x01 \x03(\x04R\auserIds\"I\n" +
+	"\x1aVerifyTwoFactorCodeRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\"3\n" +
+	"\x1bVerifyTwoFactorCodeResponse\x12\x14\n" +
+	"\x05valid\x18\x01 \x01(\bR\x05valid*\xd4\x01\n" +
 	"\x0eProjectionType\x12\x1f\n" +
 	"\x1bPROJECTION_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15PROJECTION_TYPE_BASIC\x10\x01\x12 \n" +
 	"\x1cPROJECTION_TYPE_WITH_PROFILE\x10\x02\x12\x1e\n" +
 	"\x1aPROJECTION_TYPE_WITH_ROLES\x10\x03\x12*\n" +
 	"&PROJECTION_TYPE_WITH_PROFILE_AND_ROLES\x10\x04\x12\x18\n" +
-	"\x14PROJECTION_TYPE_FULL\x10\x052\xde\x04\n" +
+	"\x14PROJECTION_TYPE_FULL\x10\x052\xb7\x06\n" +
 	"\vUserService\x12<\n" +
 	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x18.user.v1.GetUserResponse\x12?\n" +
 	"\bGetUsers\x12\x18.user.v1.GetUsersRequest\x1a\x19.user.v1.GetUsersResponse\x12Q\n" +
@@ -1352,7 +1545,9 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\rHasFullAccess\x12\x1d.user.v1.HasFullAccessRequest\x1a\x1e.user.v1.HasFullAccessResponse\x12W\n" +
 	"\x10GetRolesByUserID\x12 .user.v1.GetRolesByUserIDRequest\x1a!.user.v1.GetRolesByUserIDResponse\x12r\n" +
 	"\x19GetPermissionKeysByUserID\x12).user.v1.GetPermissionKeysByUserIDRequest\x1a*.user.v1.GetPermissionKeysByUserIDResponse\x12`\n" +
-	"\x13GetUserIDsByRoleIDs\x12#.user.v1.GetUserIDsByRoleIDsRequest\x1a$.user.v1.GetUserIDsByRoleIDsResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1b\x06proto3"
+	"\x13GetUserIDsByRoleIDs\x12#.user.v1.GetUserIDsByRoleIDsRequest\x1a$.user.v1.GetUserIDsByRoleIDsResponse\x12u\n" +
+	"\x1aGetUserIDsByPermissionKeys\x12*.user.v1.GetUserIDsByPermissionKeysRequest\x1a+.user.v1.GetUserIDsByPermissionKeysResponse\x12`\n" +
+	"\x13VerifyTwoFactorCode\x12#.user.v1.VerifyTwoFactorCodeRequest\x1a$.user.v1.VerifyTwoFactorCodeResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/user/v1;userv1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -1367,31 +1562,35 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_user_v1_user_proto_goTypes = []any{
-	(ProjectionType)(0),                       // 0: user.v1.ProjectionType
-	(*Profile)(nil),                           // 1: user.v1.Profile
-	(*Role)(nil),                              // 2: user.v1.Role
-	(*Settings)(nil),                          // 3: user.v1.Settings
-	(*TwoFactor)(nil),                         // 4: user.v1.TwoFactor
-	(*Hierarchy)(nil),                         // 5: user.v1.Hierarchy
-	(*User)(nil),                              // 6: user.v1.User
-	(*GetUserRequest)(nil),                    // 7: user.v1.GetUserRequest
-	(*GetUserResponse)(nil),                   // 8: user.v1.GetUserResponse
-	(*GetUsersRequest)(nil),                   // 9: user.v1.GetUsersRequest
-	(*GetUsersResponse)(nil),                  // 10: user.v1.GetUsersResponse
-	(*HasAdminAccessRequest)(nil),             // 11: user.v1.HasAdminAccessRequest
-	(*HasAdminAccessResponse)(nil),            // 12: user.v1.HasAdminAccessResponse
-	(*HasFullAccessRequest)(nil),              // 13: user.v1.HasFullAccessRequest
-	(*HasFullAccessResponse)(nil),             // 14: user.v1.HasFullAccessResponse
-	(*GetRolesByUserIDRequest)(nil),           // 15: user.v1.GetRolesByUserIDRequest
-	(*GetRolesByUserIDResponse)(nil),          // 16: user.v1.GetRolesByUserIDResponse
-	(*GetPermissionKeysByUserIDRequest)(nil),  // 17: user.v1.GetPermissionKeysByUserIDRequest
-	(*GetPermissionKeysByUserIDResponse)(nil), // 18: user.v1.GetPermissionKeysByUserIDResponse
-	(*GetUserIDsByRoleIDsRequest)(nil),        // 19: user.v1.GetUserIDsByRoleIDsRequest
-	(*GetUserIDsByRoleIDsResponse)(nil),       // 20: user.v1.GetUserIDsByRoleIDsResponse
-	nil,                                       // 21: user.v1.GetUsersResponse.UsersEntry
-	(*timestamppb.Timestamp)(nil),             // 22: google.protobuf.Timestamp
+	(ProjectionType)(0),                        // 0: user.v1.ProjectionType
+	(*Profile)(nil),                            // 1: user.v1.Profile
+	(*Role)(nil),                               // 2: user.v1.Role
+	(*Settings)(nil),                           // 3: user.v1.Settings
+	(*TwoFactor)(nil),                          // 4: user.v1.TwoFactor
+	(*Hierarchy)(nil),                          // 5: user.v1.Hierarchy
+	(*User)(nil),                               // 6: user.v1.User
+	(*GetUserRequest)(nil),                     // 7: user.v1.GetUserRequest
+	(*GetUserResponse)(nil),                    // 8: user.v1.GetUserResponse
+	(*GetUsersRequest)(nil),                    // 9: user.v1.GetUsersRequest
+	(*GetUsersResponse)(nil),                   // 10: user.v1.GetUsersResponse
+	(*HasAdminAccessRequest)(nil),              // 11: user.v1.HasAdminAccessRequest
+	(*HasAdminAccessResponse)(nil),             // 12: user.v1.HasAdminAccessResponse
+	(*HasFullAccessRequest)(nil),               // 13: user.v1.HasFullAccessRequest
+	(*HasFullAccessResponse)(nil),              // 14: user.v1.HasFullAccessResponse
+	(*GetRolesByUserIDRequest)(nil),            // 15: user.v1.GetRolesByUserIDRequest
+	(*GetRolesByUserIDResponse)(nil),           // 16: user.v1.GetRolesByUserIDResponse
+	(*GetPermissionKeysByUserIDRequest)(nil),   // 17: user.v1.GetPermissionKeysByUserIDRequest
+	(*GetPermissionKeysByUserIDResponse)(nil),  // 18: user.v1.GetPermissionKeysByUserIDResponse
+	(*GetUserIDsByRoleIDsRequest)(nil),         // 19: user.v1.GetUserIDsByRoleIDsRequest
+	(*GetUserIDsByRoleIDsResponse)(nil),        // 20: user.v1.GetUserIDsByRoleIDsResponse
+	(*GetUserIDsByPermissionKeysRequest)(nil),  // 21: user.v1.GetUserIDsByPermissionKeysRequest
+	(*GetUserIDsByPermissionKeysResponse)(nil), // 22: user.v1.GetUserIDsByPermissionKeysResponse
+	(*VerifyTwoFactorCodeRequest)(nil),         // 23: user.v1.VerifyTwoFactorCodeRequest
+	(*VerifyTwoFactorCodeResponse)(nil),        // 24: user.v1.VerifyTwoFactorCodeResponse
+	nil,                                        // 25: user.v1.GetUsersResponse.UsersEntry
+	(*timestamppb.Timestamp)(nil),              // 26: google.protobuf.Timestamp
 }
 var file_user_v1_user_proto_depIdxs = []int32{
 	1,  // 0: user.v1.User.profile:type_name -> user.v1.Profile
@@ -1399,12 +1598,12 @@ var file_user_v1_user_proto_depIdxs = []int32{
 	3,  // 2: user.v1.User.settings:type_name -> user.v1.Settings
 	4,  // 3: user.v1.User.two_factor:type_name -> user.v1.TwoFactor
 	5,  // 4: user.v1.User.hierarchy:type_name -> user.v1.Hierarchy
-	22, // 5: user.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	22, // 6: user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	26, // 5: user.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	26, // 6: user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 7: user.v1.GetUserRequest.projection:type_name -> user.v1.ProjectionType
 	6,  // 8: user.v1.GetUserResponse.user:type_name -> user.v1.User
 	0,  // 9: user.v1.GetUsersRequest.projection:type_name -> user.v1.ProjectionType
-	21, // 10: user.v1.GetUsersResponse.users:type_name -> user.v1.GetUsersResponse.UsersEntry
+	25, // 10: user.v1.GetUsersResponse.users:type_name -> user.v1.GetUsersResponse.UsersEntry
 	2,  // 11: user.v1.GetRolesByUserIDResponse.roles:type_name -> user.v1.Role
 	6,  // 12: user.v1.GetUsersResponse.UsersEntry.value:type_name -> user.v1.User
 	7,  // 13: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
@@ -1414,15 +1613,19 @@ var file_user_v1_user_proto_depIdxs = []int32{
 	15, // 17: user.v1.UserService.GetRolesByUserID:input_type -> user.v1.GetRolesByUserIDRequest
 	17, // 18: user.v1.UserService.GetPermissionKeysByUserID:input_type -> user.v1.GetPermissionKeysByUserIDRequest
 	19, // 19: user.v1.UserService.GetUserIDsByRoleIDs:input_type -> user.v1.GetUserIDsByRoleIDsRequest
-	8,  // 20: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
-	10, // 21: user.v1.UserService.GetUsers:output_type -> user.v1.GetUsersResponse
-	12, // 22: user.v1.UserService.HasAdminAccess:output_type -> user.v1.HasAdminAccessResponse
-	14, // 23: user.v1.UserService.HasFullAccess:output_type -> user.v1.HasFullAccessResponse
-	16, // 24: user.v1.UserService.GetRolesByUserID:output_type -> user.v1.GetRolesByUserIDResponse
-	18, // 25: user.v1.UserService.GetPermissionKeysByUserID:output_type -> user.v1.GetPermissionKeysByUserIDResponse
-	20, // 26: user.v1.UserService.GetUserIDsByRoleIDs:output_type -> user.v1.GetUserIDsByRoleIDsResponse
-	20, // [20:27] is the sub-list for method output_type
-	13, // [13:20] is the sub-list for method input_type
+	21, // 20: user.v1.UserService.GetUserIDsByPermissionKeys:input_type -> user.v1.GetUserIDsByPermissionKeysRequest
+	23, // 21: user.v1.UserService.VerifyTwoFactorCode:input_type -> user.v1.VerifyTwoFactorCodeRequest
+	8,  // 22: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
+	10, // 23: user.v1.UserService.GetUsers:output_type -> user.v1.GetUsersResponse
+	12, // 24: user.v1.UserService.HasAdminAccess:output_type -> user.v1.HasAdminAccessResponse
+	14, // 25: user.v1.UserService.HasFullAccess:output_type -> user.v1.HasFullAccessResponse
+	16, // 26: user.v1.UserService.GetRolesByUserID:output_type -> user.v1.GetRolesByUserIDResponse
+	18, // 27: user.v1.UserService.GetPermissionKeysByUserID:output_type -> user.v1.GetPermissionKeysByUserIDResponse
+	20, // 28: user.v1.UserService.GetUserIDsByRoleIDs:output_type -> user.v1.GetUserIDsByRoleIDsResponse
+	22, // 29: user.v1.UserService.GetUserIDsByPermissionKeys:output_type -> user.v1.GetUserIDsByPermissionKeysResponse
+	24, // 30: user.v1.UserService.VerifyTwoFactorCode:output_type -> user.v1.VerifyTwoFactorCodeResponse
+	22, // [22:31] is the sub-list for method output_type
+	13, // [13:22] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
 	13, // [13:13] is the sub-list for extension extendee
 	0,  // [0:13] is the sub-list for field type_name
@@ -1439,7 +1642,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   21,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

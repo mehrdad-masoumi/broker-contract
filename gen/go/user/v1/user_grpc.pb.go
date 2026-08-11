@@ -19,13 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_GetUser_FullMethodName                   = "/user.v1.UserService/GetUser"
-	UserService_GetUsers_FullMethodName                  = "/user.v1.UserService/GetUsers"
-	UserService_HasAdminAccess_FullMethodName            = "/user.v1.UserService/HasAdminAccess"
-	UserService_HasFullAccess_FullMethodName             = "/user.v1.UserService/HasFullAccess"
-	UserService_GetRolesByUserID_FullMethodName          = "/user.v1.UserService/GetRolesByUserID"
-	UserService_GetPermissionKeysByUserID_FullMethodName = "/user.v1.UserService/GetPermissionKeysByUserID"
-	UserService_GetUserIDsByRoleIDs_FullMethodName       = "/user.v1.UserService/GetUserIDsByRoleIDs"
+	UserService_GetUser_FullMethodName                    = "/user.v1.UserService/GetUser"
+	UserService_GetUsers_FullMethodName                   = "/user.v1.UserService/GetUsers"
+	UserService_HasAdminAccess_FullMethodName             = "/user.v1.UserService/HasAdminAccess"
+	UserService_HasFullAccess_FullMethodName              = "/user.v1.UserService/HasFullAccess"
+	UserService_GetRolesByUserID_FullMethodName           = "/user.v1.UserService/GetRolesByUserID"
+	UserService_GetPermissionKeysByUserID_FullMethodName  = "/user.v1.UserService/GetPermissionKeysByUserID"
+	UserService_GetUserIDsByRoleIDs_FullMethodName        = "/user.v1.UserService/GetUserIDsByRoleIDs"
+	UserService_GetUserIDsByPermissionKeys_FullMethodName = "/user.v1.UserService/GetUserIDsByPermissionKeys"
+	UserService_VerifyTwoFactorCode_FullMethodName        = "/user.v1.UserService/VerifyTwoFactorCode"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -41,6 +43,8 @@ type UserServiceClient interface {
 	GetRolesByUserID(ctx context.Context, in *GetRolesByUserIDRequest, opts ...grpc.CallOption) (*GetRolesByUserIDResponse, error)
 	GetPermissionKeysByUserID(ctx context.Context, in *GetPermissionKeysByUserIDRequest, opts ...grpc.CallOption) (*GetPermissionKeysByUserIDResponse, error)
 	GetUserIDsByRoleIDs(ctx context.Context, in *GetUserIDsByRoleIDsRequest, opts ...grpc.CallOption) (*GetUserIDsByRoleIDsResponse, error)
+	GetUserIDsByPermissionKeys(ctx context.Context, in *GetUserIDsByPermissionKeysRequest, opts ...grpc.CallOption) (*GetUserIDsByPermissionKeysResponse, error)
+	VerifyTwoFactorCode(ctx context.Context, in *VerifyTwoFactorCodeRequest, opts ...grpc.CallOption) (*VerifyTwoFactorCodeResponse, error)
 }
 
 type userServiceClient struct {
@@ -121,6 +125,26 @@ func (c *userServiceClient) GetUserIDsByRoleIDs(ctx context.Context, in *GetUser
 	return out, nil
 }
 
+func (c *userServiceClient) GetUserIDsByPermissionKeys(ctx context.Context, in *GetUserIDsByPermissionKeysRequest, opts ...grpc.CallOption) (*GetUserIDsByPermissionKeysResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserIDsByPermissionKeysResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserIDsByPermissionKeys_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) VerifyTwoFactorCode(ctx context.Context, in *VerifyTwoFactorCodeRequest, opts ...grpc.CallOption) (*VerifyTwoFactorCodeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VerifyTwoFactorCodeResponse)
+	err := c.cc.Invoke(ctx, UserService_VerifyTwoFactorCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -134,6 +158,8 @@ type UserServiceServer interface {
 	GetRolesByUserID(context.Context, *GetRolesByUserIDRequest) (*GetRolesByUserIDResponse, error)
 	GetPermissionKeysByUserID(context.Context, *GetPermissionKeysByUserIDRequest) (*GetPermissionKeysByUserIDResponse, error)
 	GetUserIDsByRoleIDs(context.Context, *GetUserIDsByRoleIDsRequest) (*GetUserIDsByRoleIDsResponse, error)
+	GetUserIDsByPermissionKeys(context.Context, *GetUserIDsByPermissionKeysRequest) (*GetUserIDsByPermissionKeysResponse, error)
+	VerifyTwoFactorCode(context.Context, *VerifyTwoFactorCodeRequest) (*VerifyTwoFactorCodeResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -164,6 +190,12 @@ func (UnimplementedUserServiceServer) GetPermissionKeysByUserID(context.Context,
 }
 func (UnimplementedUserServiceServer) GetUserIDsByRoleIDs(context.Context, *GetUserIDsByRoleIDsRequest) (*GetUserIDsByRoleIDsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserIDsByRoleIDs not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserIDsByPermissionKeys(context.Context, *GetUserIDsByPermissionKeysRequest) (*GetUserIDsByPermissionKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserIDsByPermissionKeys not implemented")
+}
+func (UnimplementedUserServiceServer) VerifyTwoFactorCode(context.Context, *VerifyTwoFactorCodeRequest) (*VerifyTwoFactorCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyTwoFactorCode not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -312,6 +344,42 @@ func _UserService_GetUserIDsByRoleIDs_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUserIDsByPermissionKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserIDsByPermissionKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserIDsByPermissionKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserIDsByPermissionKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserIDsByPermissionKeys(ctx, req.(*GetUserIDsByPermissionKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_VerifyTwoFactorCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyTwoFactorCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).VerifyTwoFactorCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_VerifyTwoFactorCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).VerifyTwoFactorCode(ctx, req.(*VerifyTwoFactorCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -346,6 +414,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserIDsByRoleIDs",
 			Handler:    _UserService_GetUserIDsByRoleIDs_Handler,
+		},
+		{
+			MethodName: "GetUserIDsByPermissionKeys",
+			Handler:    _UserService_GetUserIDsByPermissionKeys_Handler,
+		},
+		{
+			MethodName: "VerifyTwoFactorCode",
+			Handler:    _UserService_VerifyTwoFactorCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

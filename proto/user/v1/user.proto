@@ -132,6 +132,23 @@ message GetUserIDsByRoleIDsResponse {
   repeated uint64 user_ids = 1;
 }
 
+message GetUserIDsByPermissionKeysRequest {
+  repeated string permission_keys = 1;
+}
+
+message GetUserIDsByPermissionKeysResponse {
+  repeated uint64 user_ids = 1;
+}
+
+message VerifyTwoFactorCodeRequest {
+  uint64 user_id = 1;
+  string code = 2;
+}
+
+message VerifyTwoFactorCodeResponse {
+  bool valid = 1;
+}
+
 // UserService is the sync S2S API for identity lookups and RBAC checks.
 service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
@@ -141,4 +158,6 @@ service UserService {
   rpc GetRolesByUserID(GetRolesByUserIDRequest) returns (GetRolesByUserIDResponse);
   rpc GetPermissionKeysByUserID(GetPermissionKeysByUserIDRequest) returns (GetPermissionKeysByUserIDResponse);
   rpc GetUserIDsByRoleIDs(GetUserIDsByRoleIDsRequest) returns (GetUserIDsByRoleIDsResponse);
+  rpc GetUserIDsByPermissionKeys(GetUserIDsByPermissionKeysRequest) returns (GetUserIDsByPermissionKeysResponse);
+  rpc VerifyTwoFactorCode(VerifyTwoFactorCodeRequest) returns (VerifyTwoFactorCodeResponse);
 }
