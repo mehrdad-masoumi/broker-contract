@@ -1,11 +1,11 @@
 module github.com/mehrdad-masoumi/broker-contract
 
-go 1.24.0
+go 1.23.2
 
 require (
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
 	github.com/stretchr/testify v1.11.1
-	google.golang.org/grpc v1.76.0
+	google.golang.org/grpc v1.75.1
 	google.golang.org/protobuf v1.36.8
 )
 
