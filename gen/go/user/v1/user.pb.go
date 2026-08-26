@@ -180,16 +180,24 @@ func (StepUpMethod) EnumDescriptor() ([]byte, []int) {
 }
 
 type Profile struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName      string                 `protobuf:"bytes,3,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
-	Avatar        string                 `protobuf:"bytes,4,opt,name=avatar,proto3" json:"avatar,omitempty"`
-	FatherName    string                 `protobuf:"bytes,5,opt,name=father_name,json=fatherName,proto3" json:"father_name,omitempty"`
-	NationalId    string                 `protobuf:"bytes,6,opt,name=national_id,json=nationalId,proto3" json:"national_id,omitempty"`
-	Nationality   string                 `protobuf:"bytes,7,opt,name=nationality,proto3" json:"nationality,omitempty"`
-	CountryCode   string                 `protobuf:"bytes,8,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
-	Birthdate     string                 `protobuf:"bytes,9,opt,name=birthdate,proto3" json:"birthdate,omitempty"` // YYYY-MM-DD when set
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	UserId      uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FirstName   string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	LastName    string                 `protobuf:"bytes,3,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	Avatar      string                 `protobuf:"bytes,4,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	FatherName  string                 `protobuf:"bytes,5,opt,name=father_name,json=fatherName,proto3" json:"father_name,omitempty"`
+	NationalId  string                 `protobuf:"bytes,6,opt,name=national_id,json=nationalId,proto3" json:"national_id,omitempty"`
+	Nationality string                 `protobuf:"bytes,7,opt,name=nationality,proto3" json:"nationality,omitempty"`
+	CountryCode string                 `protobuf:"bytes,8,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
+	Birthdate   string                 `protobuf:"bytes,9,opt,name=birthdate,proto3" json:"birthdate,omitempty"` // YYYY-MM-DD when set
+	// Fields 14-17 support trading-account provisioning identity requirements
+	// (e.g. meta.v1.TradingIdentity). Optional: empty until an owning identity
+	// service (kyc-service) actually collects and syncs them; consumers must
+	// tolerate empty values rather than treat them as authoritative KYC data.
+	City          string `protobuf:"bytes,14,opt,name=city,proto3" json:"city,omitempty"`
+	State         string `protobuf:"bytes,15,opt,name=state,proto3" json:"state,omitempty"`
+	ZipCode       string `protobuf:"bytes,16,opt,name=zip_code,json=zipCode,proto3" json:"zip_code,omitempty"`
+	AddressLine   string `protobuf:"bytes,17,opt,name=address_line,json=addressLine,proto3" json:"address_line,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -283,6 +291,34 @@ func (x *Profile) GetCountryCode() string {
 func (x *Profile) GetBirthdate() string {
 	if x != nil {
 		return x.Birthdate
+	}
+	return ""
+}
+
+func (x *Profile) GetCity() string {
+	if x != nil {
+		return x.City
+	}
+	return ""
+}
+
+func (x *Profile) GetState() string {
+	if x != nil {
+		return x.State
+	}
+	return ""
+}
+
+func (x *Profile) GetZipCode() string {
+	if x != nil {
+		return x.ZipCode
+	}
+	return ""
+}
+
+func (x *Profile) GetAddressLine() string {
+	if x != nil {
+		return x.AddressLine
 	}
 	return ""
 }
@@ -1883,7 +1919,7 @@ var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/v1/user.proto\x12\auser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9b\x02\n" +
+	"\x12user/v1/user.proto\x12\auser.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x83\x03\n" +
 	"\aProfile\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x1d\n" +
 	"\n" +
@@ -1896,7 +1932,11 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"nationalId\x12 \n" +
 	"\vnationality\x18\a \x01(\tR\vnationality\x12!\n" +
 	"\fcountry_code\x18\b \x01(\tR\vcountryCode\x12\x1c\n" +
-	"\tbirthdate\x18\t \x01(\tR\tbirthdate\"|\n" +
+	"\tbirthdate\x18\t \x01(\tR\tbirthdate\x12\x12\n" +
+	"\x04city\x18\x0e \x01(\tR\x04city\x12\x14\n" +
+	"\x05state\x18\x0f \x01(\tR\x05state\x12\x19\n" +
+	"\bzip_code\x18\x10 \x01(\tR\azipCode\x12!\n" +
+	"\faddress_line\x18\x11 \x01(\tR\vaddressLine\"|\n" +
 	"\x04Role\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +

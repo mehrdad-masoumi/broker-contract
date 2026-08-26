@@ -26,6 +26,14 @@ message Profile {
   string nationality = 7;
   string country_code = 8;
   string birthdate = 9; // YYYY-MM-DD when set
+  // Fields 14-17 support trading-account provisioning identity requirements
+  // (e.g. meta.v1.TradingIdentity). Optional: empty until an owning identity
+  // service (kyc-service) actually collects and syncs them; consumers must
+  // tolerate empty values rather than treat them as authoritative KYC data.
+  string city = 14;
+  string state = 15;
+  string zip_code = 16;
+  string address_line = 17;
 }
 
 message Role {

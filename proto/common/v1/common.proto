@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package common.v1;
+
+option go_package = "github.com/mehrdad-masoumi/broker-contract/gen/go/common/v1;commonv1";
+
+// Decimal is an exact, base-10 decimal value carried as a canonical wire
+// string (for example "1234.56780000"), never a binary float/double.
+// Consumers parse it with an exact-decimal type (e.g. shopspring/decimal)
+// and must not round beyond the precision the producing service documents.
+// This message is the shared representation for every authoritative
+// financial value exchanged between services: balance, deposit, withdrawal,
+// commission, profit, swap, credit, margin, free margin, price, volume.
+message Decimal {
+  string value = 1;
+}
