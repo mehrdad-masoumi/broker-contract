@@ -46,9 +46,13 @@ const (
 //
 // Errors: implementations return standard gRPC status codes so callers never
 // parse provider-specific error strings. INVALID_ARGUMENT (bad request),
+// UNAUTHENTICATED (missing/invalid S2S credentials; do not retry without
+// refreshing credentials),
 // NOT_FOUND (unknown account/entity), ALREADY_EXISTS (duplicate/conflict),
 // PERMISSION_DENIED (authorization/config failure at the provider),
 // UNAVAILABLE (provider unreachable/timeout, safe to retry with backoff),
+// DEADLINE_EXCEEDED (the caller's deadline elapsed; mutation outcome may be
+// ambiguous, so reconcile before retrying any mutation),
 // RESOURCE_EXHAUSTED (provider rate limit, retry with backoff),
 // ABORTED (ambiguous mutation outcome — the caller must reconcile before
 // ever retrying the same mutation, never blindly retry), UNIMPLEMENTED
@@ -196,9 +200,13 @@ func (c *metaServiceClient) ListDeals(ctx context.Context, in *ListDealsRequest,
 //
 // Errors: implementations return standard gRPC status codes so callers never
 // parse provider-specific error strings. INVALID_ARGUMENT (bad request),
+// UNAUTHENTICATED (missing/invalid S2S credentials; do not retry without
+// refreshing credentials),
 // NOT_FOUND (unknown account/entity), ALREADY_EXISTS (duplicate/conflict),
 // PERMISSION_DENIED (authorization/config failure at the provider),
 // UNAVAILABLE (provider unreachable/timeout, safe to retry with backoff),
+// DEADLINE_EXCEEDED (the caller's deadline elapsed; mutation outcome may be
+// ambiguous, so reconcile before retrying any mutation),
 // RESOURCE_EXHAUSTED (provider rate limit, retry with backoff),
 // ABORTED (ambiguous mutation outcome — the caller must reconcile before
 // ever retrying the same mutation, never blindly retry), UNIMPLEMENTED
