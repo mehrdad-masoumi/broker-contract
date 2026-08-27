@@ -65,6 +65,7 @@ const (
 	BrokerAccountTypeGet        = "broker:account-type:get"
 	BrokerAccountTypeUpdate     = "broker:account-type:update"
 	BrokerAccountTypeDelete     = "broker:account-type:delete"
+	BrokerMetaGroupsRead        = "broker:meta-groups:read"
 	BrokerAccountCurrencyCreate = "broker:account-currency:create"
 	BrokerAccountCurrencyRead   = "broker:account-currency:read"
 	BrokerAccountCurrencyGet    = "broker:account-currency:get"

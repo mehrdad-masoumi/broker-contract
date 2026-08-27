@@ -2269,6 +2269,141 @@ func (x *ListDealsResponse) GetHasMore() bool {
 	return false
 }
 
+type ListGroupsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGroupsRequest) Reset() {
+	*x = ListGroupsRequest{}
+	mi := &file_meta_v1_meta_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGroupsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGroupsRequest) ProtoMessage() {}
+
+func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meta_v1_meta_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGroupsRequest.ProtoReflect.Descriptor instead.
+func (*ListGroupsRequest) Descriptor() ([]byte, []int) {
+	return file_meta_v1_meta_proto_rawDescGZIP(), []int{23}
+}
+
+// TradingGroup is a provider account group entry suitable for admin selection.
+// name is the canonical identifier (MT5 group path). Do not invent a synthetic
+// id when the provider identifies groups by name.
+type TradingGroup struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Available     bool                   `protobuf:"varint,2,opt,name=available,proto3" json:"available,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TradingGroup) Reset() {
+	*x = TradingGroup{}
+	mi := &file_meta_v1_meta_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TradingGroup) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TradingGroup) ProtoMessage() {}
+
+func (x *TradingGroup) ProtoReflect() protoreflect.Message {
+	mi := &file_meta_v1_meta_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TradingGroup.ProtoReflect.Descriptor instead.
+func (*TradingGroup) Descriptor() ([]byte, []int) {
+	return file_meta_v1_meta_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *TradingGroup) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *TradingGroup) GetAvailable() bool {
+	if x != nil {
+		return x.Available
+	}
+	return false
+}
+
+type ListGroupsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Groups        []*TradingGroup        `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGroupsResponse) Reset() {
+	*x = ListGroupsResponse{}
+	mi := &file_meta_v1_meta_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGroupsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGroupsResponse) ProtoMessage() {}
+
+func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meta_v1_meta_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGroupsResponse.ProtoReflect.Descriptor instead.
+func (*ListGroupsResponse) Descriptor() ([]byte, []int) {
+	return file_meta_v1_meta_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *ListGroupsResponse) GetGroups() []*TradingGroup {
+	if x != nil {
+		return x.Groups
+	}
+	return nil
+}
+
 var File_meta_v1_meta_proto protoreflect.FileDescriptor
 
 const file_meta_v1_meta_proto_rawDesc = "" +
@@ -2446,7 +2581,13 @@ const file_meta_v1_meta_proto_rawDesc = "" +
 	"\x05limit\x18\x05 \x01(\x05R\x05limit\"S\n" +
 	"\x11ListDealsResponse\x12#\n" +
 	"\x05deals\x18\x01 \x03(\v2\r.meta.v1.DealR\x05deals\x12\x19\n" +
-	"\bhas_more\x18\x02 \x01(\bR\ahasMore*Y\n" +
+	"\bhas_more\x18\x02 \x01(\bR\ahasMore\"\x13\n" +
+	"\x11ListGroupsRequest\"@\n" +
+	"\fTradingGroup\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1c\n" +
+	"\tavailable\x18\x02 \x01(\bR\tavailable\"C\n" +
+	"\x12ListGroupsResponse\x12-\n" +
+	"\x06groups\x18\x01 \x03(\v2\x15.meta.v1.TradingGroupR\x06groups*Y\n" +
 	"\vTradingType\x12\x1c\n" +
 	"\x18TRADING_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11TRADING_TYPE_DEMO\x10\x01\x12\x15\n" +
@@ -2492,7 +2633,7 @@ const file_meta_v1_meta_proto_rawDesc = "" +
 	"\rDEAL_ENTRY_IN\x10\x01\x12\x12\n" +
 	"\x0eDEAL_ENTRY_OUT\x10\x02\x12\x14\n" +
 	"\x10DEAL_ENTRY_INOUT\x10\x03\x12\x14\n" +
-	"\x10DEAL_ENTRY_OTHER\x10\x042\xcc\x06\n" +
+	"\x10DEAL_ENTRY_OTHER\x10\x042\x93\a\n" +
 	"\vMetaService\x12c\n" +
 	"\x14CreateTradingAccount\x12$.meta.v1.CreateTradingAccountRequest\x1a%.meta.v1.CreateTradingAccountResponse\x12Z\n" +
 	"\x11GetTradingAccount\x12!.meta.v1.GetTradingAccountRequest\x1a\".meta.v1.GetTradingAccountResponse\x12f\n" +
@@ -2503,7 +2644,9 @@ const file_meta_v1_meta_proto_rawDesc = "" +
 	"\rListPositions\x12\x1d.meta.v1.ListPositionsRequest\x1a\x1e.meta.v1.ListPositionsResponse\x12W\n" +
 	"\x10ListActiveOrders\x12 .meta.v1.ListActiveOrdersRequest\x1a!.meta.v1.ListActiveOrdersResponse\x12W\n" +
 	"\x10ListOrderHistory\x12 .meta.v1.ListOrderHistoryRequest\x1a!.meta.v1.ListOrderHistoryResponse\x12B\n" +
-	"\tListDeals\x12\x19.meta.v1.ListDealsRequest\x1a\x1a.meta.v1.ListDealsResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/meta/v1;metav1b\x06proto3"
+	"\tListDeals\x12\x19.meta.v1.ListDealsRequest\x1a\x1a.meta.v1.ListDealsResponse\x12E\n" +
+	"\n" +
+	"ListGroups\x12\x1a.meta.v1.ListGroupsRequest\x1a\x1b.meta.v1.ListGroupsResponseBBZ@github.com/mehrdad-masoumi/broker-contract/gen/go/meta/v1;metav1b\x06proto3"
 
 var (
 	file_meta_v1_meta_proto_rawDescOnce sync.Once
@@ -2518,7 +2661,7 @@ func file_meta_v1_meta_proto_rawDescGZIP() []byte {
 }
 
 var file_meta_v1_meta_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_meta_v1_meta_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
+var file_meta_v1_meta_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_meta_v1_meta_proto_goTypes = []any{
 	(TradingType)(0),                      // 0: meta.v1.TradingType
 	(PasswordType)(0),                     // 1: meta.v1.PasswordType
@@ -2550,100 +2693,106 @@ var file_meta_v1_meta_proto_goTypes = []any{
 	(*Deal)(nil),                          // 27: meta.v1.Deal
 	(*ListDealsRequest)(nil),              // 28: meta.v1.ListDealsRequest
 	(*ListDealsResponse)(nil),             // 29: meta.v1.ListDealsResponse
-	nil,                                   // 30: meta.v1.AccountSnapshot.ProviderMetadataEntry
-	nil,                                   // 31: meta.v1.Position.ProviderMetadataEntry
-	nil,                                   // 32: meta.v1.Order.ProviderMetadataEntry
-	nil,                                   // 33: meta.v1.Deal.ProviderMetadataEntry
-	(*timestamppb.Timestamp)(nil),         // 34: google.protobuf.Timestamp
-	(*v1.Decimal)(nil),                    // 35: common.v1.Decimal
+	(*ListGroupsRequest)(nil),             // 30: meta.v1.ListGroupsRequest
+	(*TradingGroup)(nil),                  // 31: meta.v1.TradingGroup
+	(*ListGroupsResponse)(nil),            // 32: meta.v1.ListGroupsResponse
+	nil,                                   // 33: meta.v1.AccountSnapshot.ProviderMetadataEntry
+	nil,                                   // 34: meta.v1.Position.ProviderMetadataEntry
+	nil,                                   // 35: meta.v1.Order.ProviderMetadataEntry
+	nil,                                   // 36: meta.v1.Deal.ProviderMetadataEntry
+	(*timestamppb.Timestamp)(nil),         // 37: google.protobuf.Timestamp
+	(*v1.Decimal)(nil),                    // 38: common.v1.Decimal
 }
 var file_meta_v1_meta_proto_depIdxs = []int32{
 	0,  // 0: meta.v1.CreateTradingAccountRequest.trading_type:type_name -> meta.v1.TradingType
 	7,  // 1: meta.v1.CreateTradingAccountRequest.identity:type_name -> meta.v1.TradingIdentity
-	34, // 2: meta.v1.CreateTradingAccountResponse.created_at:type_name -> google.protobuf.Timestamp
+	37, // 2: meta.v1.CreateTradingAccountResponse.created_at:type_name -> google.protobuf.Timestamp
 	18, // 3: meta.v1.CreateTradingAccountResponse.account:type_name -> meta.v1.AccountSnapshot
 	18, // 4: meta.v1.GetTradingAccountResponse.account:type_name -> meta.v1.AccountSnapshot
 	1,  // 5: meta.v1.ChangeTradingPasswordRequest.password_type:type_name -> meta.v1.PasswordType
 	18, // 6: meta.v1.ChangeLeverageResponse.account:type_name -> meta.v1.AccountSnapshot
-	35, // 7: meta.v1.FundingRequest.amount:type_name -> common.v1.Decimal
-	35, // 8: meta.v1.FundingResponse.amount:type_name -> common.v1.Decimal
+	38, // 7: meta.v1.FundingRequest.amount:type_name -> common.v1.Decimal
+	38, // 8: meta.v1.FundingResponse.amount:type_name -> common.v1.Decimal
 	18, // 9: meta.v1.FundingResponse.account:type_name -> meta.v1.AccountSnapshot
-	35, // 10: meta.v1.AccountSnapshot.balance:type_name -> common.v1.Decimal
-	35, // 11: meta.v1.AccountSnapshot.equity:type_name -> common.v1.Decimal
-	35, // 12: meta.v1.AccountSnapshot.margin:type_name -> common.v1.Decimal
-	35, // 13: meta.v1.AccountSnapshot.free_margin:type_name -> common.v1.Decimal
-	35, // 14: meta.v1.AccountSnapshot.margin_level:type_name -> common.v1.Decimal
-	35, // 15: meta.v1.AccountSnapshot.profit:type_name -> common.v1.Decimal
-	35, // 16: meta.v1.AccountSnapshot.credit:type_name -> common.v1.Decimal
-	34, // 17: meta.v1.AccountSnapshot.captured_at:type_name -> google.protobuf.Timestamp
-	30, // 18: meta.v1.AccountSnapshot.provider_metadata:type_name -> meta.v1.AccountSnapshot.ProviderMetadataEntry
+	38, // 10: meta.v1.AccountSnapshot.balance:type_name -> common.v1.Decimal
+	38, // 11: meta.v1.AccountSnapshot.equity:type_name -> common.v1.Decimal
+	38, // 12: meta.v1.AccountSnapshot.margin:type_name -> common.v1.Decimal
+	38, // 13: meta.v1.AccountSnapshot.free_margin:type_name -> common.v1.Decimal
+	38, // 14: meta.v1.AccountSnapshot.margin_level:type_name -> common.v1.Decimal
+	38, // 15: meta.v1.AccountSnapshot.profit:type_name -> common.v1.Decimal
+	38, // 16: meta.v1.AccountSnapshot.credit:type_name -> common.v1.Decimal
+	37, // 17: meta.v1.AccountSnapshot.captured_at:type_name -> google.protobuf.Timestamp
+	33, // 18: meta.v1.AccountSnapshot.provider_metadata:type_name -> meta.v1.AccountSnapshot.ProviderMetadataEntry
 	2,  // 19: meta.v1.Position.action:type_name -> meta.v1.PositionAction
-	35, // 20: meta.v1.Position.volume:type_name -> common.v1.Decimal
-	35, // 21: meta.v1.Position.open_price:type_name -> common.v1.Decimal
-	35, // 22: meta.v1.Position.current_price:type_name -> common.v1.Decimal
-	35, // 23: meta.v1.Position.stop_loss:type_name -> common.v1.Decimal
-	35, // 24: meta.v1.Position.take_profit:type_name -> common.v1.Decimal
-	35, // 25: meta.v1.Position.profit:type_name -> common.v1.Decimal
-	35, // 26: meta.v1.Position.swap:type_name -> common.v1.Decimal
-	34, // 27: meta.v1.Position.opened_at:type_name -> google.protobuf.Timestamp
-	34, // 28: meta.v1.Position.updated_at:type_name -> google.protobuf.Timestamp
-	31, // 29: meta.v1.Position.provider_metadata:type_name -> meta.v1.Position.ProviderMetadataEntry
+	38, // 20: meta.v1.Position.volume:type_name -> common.v1.Decimal
+	38, // 21: meta.v1.Position.open_price:type_name -> common.v1.Decimal
+	38, // 22: meta.v1.Position.current_price:type_name -> common.v1.Decimal
+	38, // 23: meta.v1.Position.stop_loss:type_name -> common.v1.Decimal
+	38, // 24: meta.v1.Position.take_profit:type_name -> common.v1.Decimal
+	38, // 25: meta.v1.Position.profit:type_name -> common.v1.Decimal
+	38, // 26: meta.v1.Position.swap:type_name -> common.v1.Decimal
+	37, // 27: meta.v1.Position.opened_at:type_name -> google.protobuf.Timestamp
+	37, // 28: meta.v1.Position.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 29: meta.v1.Position.provider_metadata:type_name -> meta.v1.Position.ProviderMetadataEntry
 	19, // 30: meta.v1.ListPositionsResponse.positions:type_name -> meta.v1.Position
-	34, // 31: meta.v1.ListPositionsResponse.captured_at:type_name -> google.protobuf.Timestamp
+	37, // 31: meta.v1.ListPositionsResponse.captured_at:type_name -> google.protobuf.Timestamp
 	3,  // 32: meta.v1.Order.type:type_name -> meta.v1.OrderType
 	4,  // 33: meta.v1.Order.state:type_name -> meta.v1.OrderState
-	35, // 34: meta.v1.Order.price:type_name -> common.v1.Decimal
-	35, // 35: meta.v1.Order.trigger_price:type_name -> common.v1.Decimal
-	35, // 36: meta.v1.Order.stop_loss:type_name -> common.v1.Decimal
-	35, // 37: meta.v1.Order.take_profit:type_name -> common.v1.Decimal
-	35, // 38: meta.v1.Order.volume_initial:type_name -> common.v1.Decimal
-	35, // 39: meta.v1.Order.volume_current:type_name -> common.v1.Decimal
-	34, // 40: meta.v1.Order.setup_at:type_name -> google.protobuf.Timestamp
-	34, // 41: meta.v1.Order.expiration_at:type_name -> google.protobuf.Timestamp
-	34, // 42: meta.v1.Order.done_at:type_name -> google.protobuf.Timestamp
-	32, // 43: meta.v1.Order.provider_metadata:type_name -> meta.v1.Order.ProviderMetadataEntry
+	38, // 34: meta.v1.Order.price:type_name -> common.v1.Decimal
+	38, // 35: meta.v1.Order.trigger_price:type_name -> common.v1.Decimal
+	38, // 36: meta.v1.Order.stop_loss:type_name -> common.v1.Decimal
+	38, // 37: meta.v1.Order.take_profit:type_name -> common.v1.Decimal
+	38, // 38: meta.v1.Order.volume_initial:type_name -> common.v1.Decimal
+	38, // 39: meta.v1.Order.volume_current:type_name -> common.v1.Decimal
+	37, // 40: meta.v1.Order.setup_at:type_name -> google.protobuf.Timestamp
+	37, // 41: meta.v1.Order.expiration_at:type_name -> google.protobuf.Timestamp
+	37, // 42: meta.v1.Order.done_at:type_name -> google.protobuf.Timestamp
+	35, // 43: meta.v1.Order.provider_metadata:type_name -> meta.v1.Order.ProviderMetadataEntry
 	22, // 44: meta.v1.ListActiveOrdersResponse.orders:type_name -> meta.v1.Order
-	34, // 45: meta.v1.ListActiveOrdersResponse.captured_at:type_name -> google.protobuf.Timestamp
-	34, // 46: meta.v1.ListOrderHistoryRequest.from:type_name -> google.protobuf.Timestamp
-	34, // 47: meta.v1.ListOrderHistoryRequest.to:type_name -> google.protobuf.Timestamp
+	37, // 45: meta.v1.ListActiveOrdersResponse.captured_at:type_name -> google.protobuf.Timestamp
+	37, // 46: meta.v1.ListOrderHistoryRequest.from:type_name -> google.protobuf.Timestamp
+	37, // 47: meta.v1.ListOrderHistoryRequest.to:type_name -> google.protobuf.Timestamp
 	22, // 48: meta.v1.ListOrderHistoryResponse.orders:type_name -> meta.v1.Order
 	5,  // 49: meta.v1.Deal.action:type_name -> meta.v1.DealAction
 	6,  // 50: meta.v1.Deal.entry:type_name -> meta.v1.DealEntry
-	35, // 51: meta.v1.Deal.volume:type_name -> common.v1.Decimal
-	35, // 52: meta.v1.Deal.price:type_name -> common.v1.Decimal
-	35, // 53: meta.v1.Deal.commission:type_name -> common.v1.Decimal
-	35, // 54: meta.v1.Deal.swap:type_name -> common.v1.Decimal
-	35, // 55: meta.v1.Deal.profit:type_name -> common.v1.Decimal
-	34, // 56: meta.v1.Deal.executed_at:type_name -> google.protobuf.Timestamp
-	33, // 57: meta.v1.Deal.provider_metadata:type_name -> meta.v1.Deal.ProviderMetadataEntry
-	34, // 58: meta.v1.ListDealsRequest.from:type_name -> google.protobuf.Timestamp
-	34, // 59: meta.v1.ListDealsRequest.to:type_name -> google.protobuf.Timestamp
+	38, // 51: meta.v1.Deal.volume:type_name -> common.v1.Decimal
+	38, // 52: meta.v1.Deal.price:type_name -> common.v1.Decimal
+	38, // 53: meta.v1.Deal.commission:type_name -> common.v1.Decimal
+	38, // 54: meta.v1.Deal.swap:type_name -> common.v1.Decimal
+	38, // 55: meta.v1.Deal.profit:type_name -> common.v1.Decimal
+	37, // 56: meta.v1.Deal.executed_at:type_name -> google.protobuf.Timestamp
+	36, // 57: meta.v1.Deal.provider_metadata:type_name -> meta.v1.Deal.ProviderMetadataEntry
+	37, // 58: meta.v1.ListDealsRequest.from:type_name -> google.protobuf.Timestamp
+	37, // 59: meta.v1.ListDealsRequest.to:type_name -> google.protobuf.Timestamp
 	27, // 60: meta.v1.ListDealsResponse.deals:type_name -> meta.v1.Deal
-	8,  // 61: meta.v1.MetaService.CreateTradingAccount:input_type -> meta.v1.CreateTradingAccountRequest
-	10, // 62: meta.v1.MetaService.GetTradingAccount:input_type -> meta.v1.GetTradingAccountRequest
-	12, // 63: meta.v1.MetaService.ChangeTradingPassword:input_type -> meta.v1.ChangeTradingPasswordRequest
-	14, // 64: meta.v1.MetaService.ChangeLeverage:input_type -> meta.v1.ChangeLeverageRequest
-	16, // 65: meta.v1.MetaService.Deposit:input_type -> meta.v1.FundingRequest
-	16, // 66: meta.v1.MetaService.Withdraw:input_type -> meta.v1.FundingRequest
-	20, // 67: meta.v1.MetaService.ListPositions:input_type -> meta.v1.ListPositionsRequest
-	23, // 68: meta.v1.MetaService.ListActiveOrders:input_type -> meta.v1.ListActiveOrdersRequest
-	25, // 69: meta.v1.MetaService.ListOrderHistory:input_type -> meta.v1.ListOrderHistoryRequest
-	28, // 70: meta.v1.MetaService.ListDeals:input_type -> meta.v1.ListDealsRequest
-	9,  // 71: meta.v1.MetaService.CreateTradingAccount:output_type -> meta.v1.CreateTradingAccountResponse
-	11, // 72: meta.v1.MetaService.GetTradingAccount:output_type -> meta.v1.GetTradingAccountResponse
-	13, // 73: meta.v1.MetaService.ChangeTradingPassword:output_type -> meta.v1.ChangeTradingPasswordResponse
-	15, // 74: meta.v1.MetaService.ChangeLeverage:output_type -> meta.v1.ChangeLeverageResponse
-	17, // 75: meta.v1.MetaService.Deposit:output_type -> meta.v1.FundingResponse
-	17, // 76: meta.v1.MetaService.Withdraw:output_type -> meta.v1.FundingResponse
-	21, // 77: meta.v1.MetaService.ListPositions:output_type -> meta.v1.ListPositionsResponse
-	24, // 78: meta.v1.MetaService.ListActiveOrders:output_type -> meta.v1.ListActiveOrdersResponse
-	26, // 79: meta.v1.MetaService.ListOrderHistory:output_type -> meta.v1.ListOrderHistoryResponse
-	29, // 80: meta.v1.MetaService.ListDeals:output_type -> meta.v1.ListDealsResponse
-	71, // [71:81] is the sub-list for method output_type
-	61, // [61:71] is the sub-list for method input_type
-	61, // [61:61] is the sub-list for extension type_name
-	61, // [61:61] is the sub-list for extension extendee
-	0,  // [0:61] is the sub-list for field type_name
+	31, // 61: meta.v1.ListGroupsResponse.groups:type_name -> meta.v1.TradingGroup
+	8,  // 62: meta.v1.MetaService.CreateTradingAccount:input_type -> meta.v1.CreateTradingAccountRequest
+	10, // 63: meta.v1.MetaService.GetTradingAccount:input_type -> meta.v1.GetTradingAccountRequest
+	12, // 64: meta.v1.MetaService.ChangeTradingPassword:input_type -> meta.v1.ChangeTradingPasswordRequest
+	14, // 65: meta.v1.MetaService.ChangeLeverage:input_type -> meta.v1.ChangeLeverageRequest
+	16, // 66: meta.v1.MetaService.Deposit:input_type -> meta.v1.FundingRequest
+	16, // 67: meta.v1.MetaService.Withdraw:input_type -> meta.v1.FundingRequest
+	20, // 68: meta.v1.MetaService.ListPositions:input_type -> meta.v1.ListPositionsRequest
+	23, // 69: meta.v1.MetaService.ListActiveOrders:input_type -> meta.v1.ListActiveOrdersRequest
+	25, // 70: meta.v1.MetaService.ListOrderHistory:input_type -> meta.v1.ListOrderHistoryRequest
+	28, // 71: meta.v1.MetaService.ListDeals:input_type -> meta.v1.ListDealsRequest
+	30, // 72: meta.v1.MetaService.ListGroups:input_type -> meta.v1.ListGroupsRequest
+	9,  // 73: meta.v1.MetaService.CreateTradingAccount:output_type -> meta.v1.CreateTradingAccountResponse
+	11, // 74: meta.v1.MetaService.GetTradingAccount:output_type -> meta.v1.GetTradingAccountResponse
+	13, // 75: meta.v1.MetaService.ChangeTradingPassword:output_type -> meta.v1.ChangeTradingPasswordResponse
+	15, // 76: meta.v1.MetaService.ChangeLeverage:output_type -> meta.v1.ChangeLeverageResponse
+	17, // 77: meta.v1.MetaService.Deposit:output_type -> meta.v1.FundingResponse
+	17, // 78: meta.v1.MetaService.Withdraw:output_type -> meta.v1.FundingResponse
+	21, // 79: meta.v1.MetaService.ListPositions:output_type -> meta.v1.ListPositionsResponse
+	24, // 80: meta.v1.MetaService.ListActiveOrders:output_type -> meta.v1.ListActiveOrdersResponse
+	26, // 81: meta.v1.MetaService.ListOrderHistory:output_type -> meta.v1.ListOrderHistoryResponse
+	29, // 82: meta.v1.MetaService.ListDeals:output_type -> meta.v1.ListDealsResponse
+	32, // 83: meta.v1.MetaService.ListGroups:output_type -> meta.v1.ListGroupsResponse
+	73, // [73:84] is the sub-list for method output_type
+	62, // [62:73] is the sub-list for method input_type
+	62, // [62:62] is the sub-list for extension type_name
+	62, // [62:62] is the sub-list for extension extendee
+	0,  // [0:62] is the sub-list for field type_name
 }
 
 func init() { file_meta_v1_meta_proto_init() }
@@ -2657,7 +2806,7 @@ func file_meta_v1_meta_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meta_v1_meta_proto_rawDesc), len(file_meta_v1_meta_proto_rawDesc)),
 			NumEnums:      7,
-			NumMessages:   27,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

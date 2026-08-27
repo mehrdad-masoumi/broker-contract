@@ -17,6 +17,7 @@ func BrokerPermissions() []Permission {
 		{Key: BrokerAccountTypeGet, Service: ServiceBroker, Module: "broker", Group: "Account Types", Name: "Get Account Type", Description: "View a broker account type by ID", Route: "GET /account-types/:id"},
 		{Key: BrokerAccountTypeUpdate, Service: ServiceBroker, Module: "broker", Group: "Account Types", Name: "Update Account Type", Description: "Update broker account types", Route: "PUT /account-types/:id"},
 		{Key: BrokerAccountTypeDelete, Service: ServiceBroker, Module: "broker", Group: "Account Types", Name: "Delete Account Type", Description: "Delete broker account types", Route: "DELETE /account-types/:id"},
+		{Key: BrokerMetaGroupsRead, Service: ServiceBroker, Module: "broker", Group: "Account Types", Name: "Read Meta Groups", Description: "List MT5 groups available for account type mapping", Route: "GET /meta/groups"},
 		{Key: BrokerAccountCurrencyCreate, Service: ServiceBroker, Module: "broker", Group: "Currencies", Name: "Create Account Currency", Description: "Create trading account currencies", Route: "POST /account-currencies"},
 		{Key: BrokerAccountCurrencyRead, Service: ServiceBroker, Module: "broker", Group: "Currencies", Name: "Read Account Currency", Description: "View trading account currencies", Route: "GET /account-currencies"},
 		{Key: BrokerAccountCurrencyGet, Service: ServiceBroker, Module: "broker", Group: "Currencies", Name: "Get Account Currency", Description: "View a trading account currency by ID", Route: "GET /account-currencies/:id"},

@@ -29,6 +29,7 @@ const (
 	MetaService_ListActiveOrders_FullMethodName      = "/meta.v1.MetaService/ListActiveOrders"
 	MetaService_ListOrderHistory_FullMethodName      = "/meta.v1.MetaService/ListOrderHistory"
 	MetaService_ListDeals_FullMethodName             = "/meta.v1.MetaService/ListDeals"
+	MetaService_ListGroups_FullMethodName            = "/meta.v1.MetaService/ListGroups"
 )
 
 // MetaServiceClient is the client API for MetaService service.
@@ -75,6 +76,12 @@ type MetaServiceClient interface {
 	ListActiveOrders(ctx context.Context, in *ListActiveOrdersRequest, opts ...grpc.CallOption) (*ListActiveOrdersResponse, error)
 	ListOrderHistory(ctx context.Context, in *ListOrderHistoryRequest, opts ...grpc.CallOption) (*ListOrderHistoryResponse, error)
 	ListDeals(ctx context.Context, in *ListDealsRequest, opts ...grpc.CallOption) (*ListDealsResponse, error)
+	// ListGroups returns the provider's current account-group catalog. Groups are
+	// identified by path/name (e.g. "real\\jettrade\\elite-usd"); MT5 does not
+	// expose a separate stable group ID. available is true for every group
+	// currently present in the live catalog — callers that persist a mapping
+	// detect unavailability by absence from this list, never by deleting local data.
+	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
 }
 
 type metaServiceClient struct {
@@ -185,6 +192,16 @@ func (c *metaServiceClient) ListDeals(ctx context.Context, in *ListDealsRequest,
 	return out, nil
 }
 
+func (c *metaServiceClient) ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListGroupsResponse)
+	err := c.cc.Invoke(ctx, MetaService_ListGroups_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MetaServiceServer is the server API for MetaService service.
 // All implementations must embed UnimplementedMetaServiceServer
 // for forward compatibility.
@@ -229,6 +246,12 @@ type MetaServiceServer interface {
 	ListActiveOrders(context.Context, *ListActiveOrdersRequest) (*ListActiveOrdersResponse, error)
 	ListOrderHistory(context.Context, *ListOrderHistoryRequest) (*ListOrderHistoryResponse, error)
 	ListDeals(context.Context, *ListDealsRequest) (*ListDealsResponse, error)
+	// ListGroups returns the provider's current account-group catalog. Groups are
+	// identified by path/name (e.g. "real\\jettrade\\elite-usd"); MT5 does not
+	// expose a separate stable group ID. available is true for every group
+	// currently present in the live catalog — callers that persist a mapping
+	// detect unavailability by absence from this list, never by deleting local data.
+	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
 	mustEmbedUnimplementedMetaServiceServer()
 }
 
@@ -268,6 +291,9 @@ func (UnimplementedMetaServiceServer) ListOrderHistory(context.Context, *ListOrd
 }
 func (UnimplementedMetaServiceServer) ListDeals(context.Context, *ListDealsRequest) (*ListDealsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDeals not implemented")
+}
+func (UnimplementedMetaServiceServer) ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListGroups not implemented")
 }
 func (UnimplementedMetaServiceServer) mustEmbedUnimplementedMetaServiceServer() {}
 func (UnimplementedMetaServiceServer) testEmbeddedByValue()                     {}
@@ -470,6 +496,24 @@ func _MetaService_ListDeals_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MetaService_ListGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGroupsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MetaServiceServer).ListGroups(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MetaService_ListGroups_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MetaServiceServer).ListGroups(ctx, req.(*ListGroupsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MetaService_ServiceDesc is the grpc.ServiceDesc for MetaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -516,6 +560,10 @@ var MetaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListDeals",
 			Handler:    _MetaService_ListDeals_Handler,
+		},
+		{
+			MethodName: "ListGroups",
+			Handler:    _MetaService_ListGroups_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -49,6 +49,13 @@ service MetaService {
   rpc ListActiveOrders(ListActiveOrdersRequest) returns (ListActiveOrdersResponse);
   rpc ListOrderHistory(ListOrderHistoryRequest) returns (ListOrderHistoryResponse);
   rpc ListDeals(ListDealsRequest) returns (ListDealsResponse);
+
+  // ListGroups returns the provider's current account-group catalog. Groups are
+  // identified by path/name (e.g. "real\\jettrade\\elite-usd"); MT5 does not
+  // expose a separate stable group ID. available is true for every group
+  // currently present in the live catalog — callers that persist a mapping
+  // detect unavailability by absence from this list, never by deleting local data.
+  rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse);
 }
 
 enum TradingType {
@@ -356,4 +363,18 @@ message ListDealsRequest {
 message ListDealsResponse {
   repeated Deal deals = 1;
   bool has_more = 2;
+}
+
+message ListGroupsRequest {}
+
+// TradingGroup is a provider account group entry suitable for admin selection.
+// name is the canonical identifier (MT5 group path). Do not invent a synthetic
+// id when the provider identifies groups by name.
+message TradingGroup {
+  string name = 1;
+  bool available = 2;
+}
+
+message ListGroupsResponse {
+  repeated TradingGroup groups = 1;
 }
