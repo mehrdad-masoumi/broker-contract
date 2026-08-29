@@ -118,6 +118,13 @@ message CreateTradingAccountRequest {
   // does not by itself prevent an interceptor from serializing them.
   string main_password = 7;
   string investor_password = 8;
+  // platform_user_id is the broker-owned CRM customer identifier. Required
+  // for MT5 Client lifecycle (one Client per customer, many Users per Client).
+  uint64 platform_user_id = 9;
+  // meta_client_id is the persisted MT5 CRM Client RecordID when the broker
+  // already resolved it for this customer. Omit on the first account for a
+  // customer; meta-service creates the Client once and returns the id.
+  string meta_client_id = 10;
 }
 
 message CreateTradingAccountResponse {
@@ -125,6 +132,8 @@ message CreateTradingAccountResponse {
   string external_group = 2;
   google.protobuf.Timestamp created_at = 3;
   AccountSnapshot account = 4;
+  // meta_client_id is the MT5 CRM Client RecordID bound to this account.
+  string meta_client_id = 5;
 }
 
 message GetTradingAccountRequest {

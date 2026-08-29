@@ -561,8 +561,15 @@ type CreateTradingAccountRequest struct {
 	// does not by itself prevent an interceptor from serializing them.
 	MainPassword     string `protobuf:"bytes,7,opt,name=main_password,json=mainPassword,proto3" json:"main_password,omitempty"`
 	InvestorPassword string `protobuf:"bytes,8,opt,name=investor_password,json=investorPassword,proto3" json:"investor_password,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// platform_user_id is the broker-owned CRM customer identifier. Required
+	// for MT5 Client lifecycle (one Client per customer, many Users per Client).
+	PlatformUserId uint64 `protobuf:"varint,9,opt,name=platform_user_id,json=platformUserId,proto3" json:"platform_user_id,omitempty"`
+	// meta_client_id is the persisted MT5 CRM Client RecordID when the broker
+	// already resolved it for this customer. Omit on the first account for a
+	// customer; meta-service creates the Client once and returns the id.
+	MetaClientId  string `protobuf:"bytes,10,opt,name=meta_client_id,json=metaClientId,proto3" json:"meta_client_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateTradingAccountRequest) Reset() {
@@ -651,12 +658,28 @@ func (x *CreateTradingAccountRequest) GetInvestorPassword() string {
 	return ""
 }
 
+func (x *CreateTradingAccountRequest) GetPlatformUserId() uint64 {
+	if x != nil {
+		return x.PlatformUserId
+	}
+	return 0
+}
+
+func (x *CreateTradingAccountRequest) GetMetaClientId() string {
+	if x != nil {
+		return x.MetaClientId
+	}
+	return ""
+}
+
 type CreateTradingAccountResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ExternalLogin string                 `protobuf:"bytes,1,opt,name=external_login,json=externalLogin,proto3" json:"external_login,omitempty"`
 	ExternalGroup string                 `protobuf:"bytes,2,opt,name=external_group,json=externalGroup,proto3" json:"external_group,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	Account       *AccountSnapshot       `protobuf:"bytes,4,opt,name=account,proto3" json:"account,omitempty"`
+	// meta_client_id is the MT5 CRM Client RecordID bound to this account.
+	MetaClientId  string `protobuf:"bytes,5,opt,name=meta_client_id,json=metaClientId,proto3" json:"meta_client_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -717,6 +740,13 @@ func (x *CreateTradingAccountResponse) GetAccount() *AccountSnapshot {
 		return x.Account
 	}
 	return nil
+}
+
+func (x *CreateTradingAccountResponse) GetMetaClientId() string {
+	if x != nil {
+		return x.MetaClientId
+	}
+	return ""
 }
 
 type GetTradingAccountRequest struct {
@@ -2419,7 +2449,7 @@ const file_meta_v1_meta_proto_rawDesc = "" +
 	"\x04city\x18\x06 \x01(\tR\x04city\x12\x14\n" +
 	"\x05state\x18\a \x01(\tR\x05state\x12\x19\n" +
 	"\bzip_code\x18\b \x01(\tR\azipCode\x12!\n" +
-	"\faddress_line\x18\t \x01(\tR\vaddressLine\"\xf2\x02\n" +
+	"\faddress_line\x18\t \x01(\tR\vaddressLine\"\xc2\x03\n" +
 	"\x1bCreateTradingAccountRequest\x123\n" +
 	"\x15idempotency_reference\x18\x01 \x01(\tR\x14idempotencyReference\x12%\n" +
 	"\x0eexternal_group\x18\x02 \x01(\tR\rexternalGroup\x12\x1a\n" +
@@ -2428,13 +2458,17 @@ const file_meta_v1_meta_proto_rawDesc = "" +
 	"\ftrading_type\x18\x05 \x01(\x0e2\x14.meta.v1.TradingTypeR\vtradingType\x124\n" +
 	"\bidentity\x18\x06 \x01(\v2\x18.meta.v1.TradingIdentityR\bidentity\x12#\n" +
 	"\rmain_password\x18\a \x01(\tR\fmainPassword\x12+\n" +
-	"\x11investor_password\x18\b \x01(\tR\x10investorPassword\"\xdb\x01\n" +
+	"\x11investor_password\x18\b \x01(\tR\x10investorPassword\x12(\n" +
+	"\x10platform_user_id\x18\t \x01(\x04R\x0eplatformUserId\x12$\n" +
+	"\x0emeta_client_id\x18\n" +
+	" \x01(\tR\fmetaClientId\"\x81\x02\n" +
 	"\x1cCreateTradingAccountResponse\x12%\n" +
 	"\x0eexternal_login\x18\x01 \x01(\tR\rexternalLogin\x12%\n" +
 	"\x0eexternal_group\x18\x02 \x01(\tR\rexternalGroup\x129\n" +
 	"\n" +
 	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x122\n" +
-	"\aaccount\x18\x04 \x01(\v2\x18.meta.v1.AccountSnapshotR\aaccount\"A\n" +
+	"\aaccount\x18\x04 \x01(\v2\x18.meta.v1.AccountSnapshotR\aaccount\x12$\n" +
+	"\x0emeta_client_id\x18\x05 \x01(\tR\fmetaClientId\"A\n" +
 	"\x18GetTradingAccountRequest\x12%\n" +
 	"\x0eexternal_login\x18\x01 \x01(\tR\rexternalLogin\"O\n" +
 	"\x19GetTradingAccountResponse\x122\n" +
