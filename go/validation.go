@@ -2,8 +2,14 @@ package notification
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 	"unicode/utf8"
+)
+
+var (
+	eventTypePattern    = regexp.MustCompile(`^[a-z][a-z0-9_.-]+\.v[1-9][0-9]*$`)
+	eventVersionPattern = regexp.MustCompile(`^v[1-9][0-9]*$`)
 )
 
 // FieldError is a single validation failure keyed by JSON field path.
@@ -117,6 +123,46 @@ func ValidateNotificationRequested(n NotificationRequested) error {
 	}
 	if needsPush && len(n.Recipient.DeviceTokens) == 0 {
 		ve.add("recipient.device_tokens", "required when channels include push")
+	}
+
+	hasCanonical := n.EventID != "" || n.EventType != "" || n.EventVersion != "" ||
+		n.Producer != "" || n.AggregateType != "" || n.AggregateID != "" || n.AggregateVersion != 0 ||
+		n.CausationID != "" || n.OperationID != ""
+	if hasCanonical {
+		required := []struct{ field, value string }{
+			{"event_id", n.EventID}, {"event_type", n.EventType}, {"event_version", n.EventVersion},
+			{"producer", n.Producer}, {"aggregate_type", n.AggregateType}, {"aggregate_id", n.AggregateID},
+		}
+		for _, item := range required {
+			if strings.TrimSpace(item.value) == "" {
+				ve.add(item.field, "required when canonical event metadata is present")
+			}
+		}
+		bounded := []struct {
+			field, value string
+			max          int
+		}{
+			{"event_id", n.EventID, 128}, {"event_type", n.EventType, 160}, {"producer", n.Producer, 128},
+			{"aggregate_type", n.AggregateType, 128}, {"aggregate_id", n.AggregateID, 128},
+			{"causation_id", n.CausationID, 128}, {"operation_id", n.OperationID, 128},
+		}
+		for _, item := range bounded {
+			if utf8.RuneCountInString(item.value) > item.max {
+				ve.add(item.field, fmt.Sprintf("max length %d", item.max))
+			}
+		}
+		if n.EventType != "" && !eventTypePattern.MatchString(n.EventType) {
+			ve.add("event_type", "must be a lower-case versioned domain event type")
+		}
+		if n.EventVersion != "" && !eventVersionPattern.MatchString(n.EventVersion) {
+			ve.add("event_version", "must match vN")
+		}
+		if n.EventType != "" && n.EventVersion != "" && !strings.HasSuffix(n.EventType, "."+n.EventVersion) {
+			ve.add("event_version", "must match event_type suffix")
+		}
+		if n.AggregateVersion == 0 {
+			ve.add("aggregate_version", "must be greater than zero when canonical event metadata is present")
+		}
 	}
 
 	if ve.empty() {

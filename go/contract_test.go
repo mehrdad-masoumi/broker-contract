@@ -66,6 +66,64 @@ func TestValidateNotificationRequested_MissingIdempotency(t *testing.T) {
 	require.Error(t, err)
 }
 
+func TestCanonicalEventMetadataJSONProtoRoundTrip(t *testing.T) {
+	n := notification.NotificationRequested{
+		Version: notification.ContractVersion, MessageID: "message-1", IdempotencyKey: "funding:op-1:completed",
+		SourceService: "broker-service", TemplateCode: "trading_funding_completed",
+		Recipient: notification.Recipient{UserID: "42"}, Channels: []string{notification.ChannelInApp},
+		EventID: "event-1", EventType: "broker.funding.completed.v1", EventVersion: "v1",
+		Producer: "broker-service", AggregateType: "funding_operation", AggregateID: "op-1",
+		AggregateVersion: 4, CausationID: "event-0", OperationID: "op-1",
+	}
+	p, err := notification.ToProto(n)
+	require.NoError(t, err)
+	got, err := notification.FromProto(p)
+	require.NoError(t, err)
+	require.Equal(t, n, got)
+
+	body, err := json.Marshal(n)
+	require.NoError(t, err)
+	parsed, err := notification.ParseAndValidateJSON(body)
+	require.NoError(t, err)
+	require.Equal(t, n, parsed)
+}
+
+func TestCanonicalEventMetadataIsAtomicAndVersioned(t *testing.T) {
+	base := notification.NotificationRequested{
+		Version: "v1", MessageID: "m", IdempotencyKey: "k", SourceService: "broker-service",
+		TemplateCode: "x", Recipient: notification.Recipient{UserID: "1"}, Channels: []string{"in_app"},
+	}
+	partial := base
+	partial.EventID = "event-1"
+	require.Error(t, notification.ValidateNotificationRequested(partial))
+	body, err := json.Marshal(partial)
+	require.NoError(t, err)
+	_, err = notification.ParseAndValidateJSON(body)
+	require.Error(t, err)
+
+	badVersion := base
+	badVersion.EventID = "event-1"
+	badVersion.EventType = "broker.funding.completed.v1"
+	badVersion.EventVersion = "v2"
+	badVersion.Producer = "broker-service"
+	badVersion.AggregateType = "funding"
+	badVersion.AggregateID = "op-1"
+	badVersion.AggregateVersion = 1
+	require.Error(t, notification.ValidateNotificationRequested(badVersion))
+}
+
+func TestLegacyCommandWithoutCanonicalMetadataRemainsValid(t *testing.T) {
+	legacy := notification.NotificationRequested{
+		Version: "v1", MessageID: "m", IdempotencyKey: "legacy:k", SourceService: "wallet-service",
+		TemplateCode: "deposit_confirmed", Recipient: notification.Recipient{UserID: "1"}, Channels: []string{"in_app"},
+	}
+	require.NoError(t, notification.ValidateNotificationRequested(legacy))
+	body, err := json.Marshal(legacy)
+	require.NoError(t, err)
+	_, err = notification.ParseAndValidateJSON(body)
+	require.NoError(t, err)
+}
+
 func TestValidateNotificationRequested_InAppRequiresUserID(t *testing.T) {
 	err := notification.ValidateNotificationRequested(notification.NotificationRequested{
 		Version:        "v1",

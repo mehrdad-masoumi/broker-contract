@@ -75,7 +75,14 @@ Required fields:
 | `recipient` | contacts snapshot |
 | `channels` | `in_app` \| `email` \| `sms` \| `whatsapp` \| `push` |
 
-Optional: `locale`, `variables`, `metadata`, `scheduled_at`, `requested_at` / `occurred_at`, `correlation_id`, `trace_id`.
+Optional for legacy commands: `locale`, `variables`, `metadata`, `scheduled_at`, `requested_at` / `occurred_at`, `correlation_id`, `trace_id`.
+
+Domain-transition commands also carry the canonical metadata set:
+`event_id`, `event_type`, `event_version`, `producer`, `aggregate_type`,
+`aggregate_id`, positive `aggregate_version`, and optional `causation_id` /
+`operation_id`. The core set is atomic: either all core fields are absent for a
+legacy command, or all are present and version-consistent. This lets
+Notification Service durably fence replay and stale aggregate deliveries.
 
 ### Example JSON (RabbitMQ body)
 

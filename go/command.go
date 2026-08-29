@@ -55,21 +55,30 @@ type Recipient struct {
 // Semantic twin of proto notification.v1.NotificationRequested and
 // schemas/notification.requested.v1.json.
 type NotificationRequested struct {
-	Version        string            `json:"version"`
-	MessageID      string            `json:"message_id"`
-	IdempotencyKey string            `json:"idempotency_key"`
-	SourceService  string            `json:"source_service"`
-	TemplateCode   string            `json:"template_code"`
-	Locale         string            `json:"locale,omitempty"`
-	Recipient      Recipient         `json:"recipient"`
-	Channels       []string          `json:"channels"`
-	Variables      map[string]any    `json:"variables,omitempty"`
-	Metadata       map[string]string `json:"metadata,omitempty"`
-	ScheduledAt    *time.Time        `json:"scheduled_at"`
-	RequestedAt    *time.Time        `json:"requested_at,omitempty"`
-	OccurredAt     *time.Time        `json:"occurred_at,omitempty"`
-	CorrelationID  string            `json:"correlation_id,omitempty"`
-	TraceID        string            `json:"trace_id,omitempty"`
+	Version          string            `json:"version"`
+	MessageID        string            `json:"message_id"`
+	IdempotencyKey   string            `json:"idempotency_key"`
+	SourceService    string            `json:"source_service"`
+	TemplateCode     string            `json:"template_code"`
+	Locale           string            `json:"locale,omitempty"`
+	Recipient        Recipient         `json:"recipient"`
+	Channels         []string          `json:"channels"`
+	Variables        map[string]any    `json:"variables,omitempty"`
+	Metadata         map[string]string `json:"metadata,omitempty"`
+	ScheduledAt      *time.Time        `json:"scheduled_at"`
+	RequestedAt      *time.Time        `json:"requested_at,omitempty"`
+	OccurredAt       *time.Time        `json:"occurred_at,omitempty"`
+	CorrelationID    string            `json:"correlation_id,omitempty"`
+	TraceID          string            `json:"trace_id,omitempty"`
+	EventID          string            `json:"event_id,omitempty"`
+	EventType        string            `json:"event_type,omitempty"`
+	EventVersion     string            `json:"event_version,omitempty"`
+	Producer         string            `json:"producer,omitempty"`
+	AggregateType    string            `json:"aggregate_type,omitempty"`
+	AggregateID      string            `json:"aggregate_id,omitempty"`
+	AggregateVersion uint64            `json:"aggregate_version,omitempty"`
+	CausationID      string            `json:"causation_id,omitempty"`
+	OperationID      string            `json:"operation_id,omitempty"`
 }
 
 // EffectiveRequestedAt returns requested_at, falling back to occurred_at.

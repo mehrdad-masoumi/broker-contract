@@ -243,8 +243,20 @@ type NotificationRequested struct {
 	OccurredAt    *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=occurred_at,json=occurredAt,proto3" json:"occurred_at,omitempty"`
 	CorrelationId string                 `protobuf:"bytes,14,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
 	TraceId       string                 `protobuf:"bytes,15,opt,name=trace_id,json=traceId,proto3" json:"trace_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Optional canonical domain-event identity and ordering metadata. Legacy
+	// notification commands may omit these fields; transition publishers must
+	// populate them so consumers can fence replay and stale delivery.
+	EventId          string `protobuf:"bytes,16,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	EventType        string `protobuf:"bytes,17,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	EventVersion     string `protobuf:"bytes,18,opt,name=event_version,json=eventVersion,proto3" json:"event_version,omitempty"`
+	Producer         string `protobuf:"bytes,19,opt,name=producer,proto3" json:"producer,omitempty"`
+	AggregateType    string `protobuf:"bytes,20,opt,name=aggregate_type,json=aggregateType,proto3" json:"aggregate_type,omitempty"`
+	AggregateId      string `protobuf:"bytes,21,opt,name=aggregate_id,json=aggregateId,proto3" json:"aggregate_id,omitempty"`
+	AggregateVersion uint64 `protobuf:"varint,22,opt,name=aggregate_version,json=aggregateVersion,proto3" json:"aggregate_version,omitempty"`
+	CausationId      string `protobuf:"bytes,23,opt,name=causation_id,json=causationId,proto3" json:"causation_id,omitempty"`
+	OperationId      string `protobuf:"bytes,24,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *NotificationRequested) Reset() {
@@ -378,6 +390,69 @@ func (x *NotificationRequested) GetCorrelationId() string {
 func (x *NotificationRequested) GetTraceId() string {
 	if x != nil {
 		return x.TraceId
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetEventId() string {
+	if x != nil {
+		return x.EventId
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetEventVersion() string {
+	if x != nil {
+		return x.EventVersion
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetProducer() string {
+	if x != nil {
+		return x.Producer
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetAggregateType() string {
+	if x != nil {
+		return x.AggregateType
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetAggregateId() string {
+	if x != nil {
+		return x.AggregateId
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetAggregateVersion() uint64 {
+	if x != nil {
+		return x.AggregateVersion
+	}
+	return 0
+}
+
+func (x *NotificationRequested) GetCausationId() string {
+	if x != nil {
+		return x.CausationId
+	}
+	return ""
+}
+
+func (x *NotificationRequested) GetOperationId() string {
+	if x != nil {
+		return x.OperationId
 	}
 	return ""
 }
@@ -521,7 +596,7 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x14\n" +
 	"\x05phone\x18\x03 \x01(\tR\x05phone\x12#\n" +
 	"\rdevice_tokens\x18\x04 \x03(\tR\fdeviceTokens\x12!\n" +
-	"\fdisplay_name\x18\x05 \x01(\tR\vdisplayName\"\xec\x06\n" +
+	"\fdisplay_name\x18\x05 \x01(\tR\vdisplayName\"\xa4\t\n" +
 	"\x15NotificationRequested\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12\x1d\n" +
 	"\n" +
@@ -540,7 +615,17 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"\voccurred_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"occurredAt\x12%\n" +
 	"\x0ecorrelation_id\x18\x0e \x01(\tR\rcorrelationId\x12\x19\n" +
-	"\btrace_id\x18\x0f \x01(\tR\atraceId\x1a<\n" +
+	"\btrace_id\x18\x0f \x01(\tR\atraceId\x12\x19\n" +
+	"\bevent_id\x18\x10 \x01(\tR\aeventId\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x11 \x01(\tR\teventType\x12#\n" +
+	"\revent_version\x18\x12 \x01(\tR\feventVersion\x12\x1a\n" +
+	"\bproducer\x18\x13 \x01(\tR\bproducer\x12%\n" +
+	"\x0eaggregate_type\x18\x14 \x01(\tR\raggregateType\x12!\n" +
+	"\faggregate_id\x18\x15 \x01(\tR\vaggregateId\x12+\n" +
+	"\x11aggregate_version\x18\x16 \x01(\x04R\x10aggregateVersion\x12!\n" +
+	"\fcausation_id\x18\x17 \x01(\tR\vcausationId\x12!\n" +
+	"\foperation_id\x18\x18 \x01(\tR\voperationId\x1a<\n" +
 	"\x0eVariablesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a;\n" +

@@ -90,8 +90,65 @@
     "trace_id": {
       "type": "string",
       "maxLength": 128
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "event_type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.-]+\\.v[1-9][0-9]*$",
+      "maxLength": 160
+    },
+    "event_version": {
+      "type": "string",
+      "pattern": "^v[1-9][0-9]*$"
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "aggregate_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "aggregate_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "aggregate_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "causation_id": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "operation_id": {
+      "type": "string",
+      "maxLength": 128
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          {"required": ["event_id"]}, {"required": ["event_type"]},
+          {"required": ["event_version"]}, {"required": ["producer"]},
+          {"required": ["aggregate_type"]}, {"required": ["aggregate_id"]},
+          {"required": ["aggregate_version"]}, {"required": ["causation_id"]},
+          {"required": ["operation_id"]}
+        ]
+      },
+      "then": {
+        "required": ["event_id", "event_type", "event_version", "producer", "aggregate_type", "aggregate_id", "aggregate_version"]
+      }
+    }
+  ],
   "$defs": {
     "channel": {
       "type": "string",

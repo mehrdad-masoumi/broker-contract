@@ -64,6 +64,18 @@ message NotificationRequested {
   google.protobuf.Timestamp occurred_at = 13;
   string correlation_id = 14;
   string trace_id = 15;
+  // Optional canonical domain-event identity and ordering metadata. Legacy
+  // notification commands may omit these fields; transition publishers must
+  // populate them so consumers can fence replay and stale delivery.
+  string event_id = 16;
+  string event_type = 17;
+  string event_version = 18;
+  string producer = 19;
+  string aggregate_type = 20;
+  string aggregate_id = 21;
+  uint64 aggregate_version = 22;
+  string causation_id = 23;
+  string operation_id = 24;
 }
 
 // SendNotificationRequest wraps NotificationRequested for the gRPC RPC.
