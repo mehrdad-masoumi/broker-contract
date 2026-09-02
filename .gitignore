@@ -1,15 +1,55 @@
-# Binaries / local tooling
-tools/
-*.exe
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+!.env.example
 
-# IDE
+secrets/
+*.pem
+*.key
+*.crt
+
+# =========================
+# Go binaries / build
+# =========================
+*.exe
+*.test
+*.out
+bin/
+dist/
+
+# =========================
+# Go modules
+# =========================
+vendor/
+
+# =========================
+# Coverage / Profiling
+# =========================
+coverage/
+coverage.*
+*.coverprofile
+*.prof
+
+# =========================
+# Runtime / Temporary
+# =========================
+tmp/
+.tmp/
+logs/
+*.log
+core
+core.*
+
+# =========================
+# IDE / Editor
+# =========================
 .idea/
 .vscode/
-*.swp
 
+# =========================
 # OS
+# =========================
 .DS_Store
 Thumbs.db
-
-# Coverage
-coverage.out
