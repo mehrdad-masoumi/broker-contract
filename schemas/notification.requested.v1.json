@@ -91,6 +91,16 @@
       "type": "string",
       "maxLength": 128
     },
+    "traceparent": {
+      "type": "string",
+      "maxLength": 128,
+      "description": "W3C Trace Context persisted through transactional outboxes."
+    },
+    "tracestate": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Optional W3C vendor trace state persisted through transactional outboxes."
+    },
     "event_id": {
       "type": "string",
       "minLength": 1,

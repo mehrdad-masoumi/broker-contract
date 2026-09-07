@@ -70,6 +70,8 @@ type NotificationRequested struct {
 	OccurredAt       *time.Time        `json:"occurred_at,omitempty"`
 	CorrelationID    string            `json:"correlation_id,omitempty"`
 	TraceID          string            `json:"trace_id,omitempty"`
+	TraceParent      string            `json:"traceparent,omitempty"`
+	TraceState       string            `json:"tracestate,omitempty"`
 	EventID          string            `json:"event_id,omitempty"`
 	EventType        string            `json:"event_type,omitempty"`
 	EventVersion     string            `json:"event_version,omitempty"`

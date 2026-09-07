@@ -206,3 +206,20 @@ func TestScheduledAtAllowed(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, pb.ScheduledAt)
 }
+
+func TestTraceContextAllowed(t *testing.T) {
+	n := notification.NotificationRequested{
+		Version:        "v1",
+		MessageID:      "m1",
+		IdempotencyKey: "k",
+		SourceService:  "svc",
+		TemplateCode:   "t",
+		Recipient:      notification.Recipient{Email: "a@b.c"},
+		Channels:       []string{"email"},
+		TraceParent:    "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+		TraceState:     "vendor=value",
+	}
+	raw, err := json.Marshal(n)
+	require.NoError(t, err)
+	require.NoError(t, notification.ValidateJSONSchema(raw))
+}
