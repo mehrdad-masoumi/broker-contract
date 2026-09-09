@@ -2,17 +2,16 @@ package event
 
 // Producer service names for domain events (must not be generic "core").
 const (
-	ProducerUser             = "user-service"
-	ProducerAuth             = "auth-service"
-	ProducerWallet           = "wallet-service"
-	ProducerIB               = "ib-service"
-	ProducerNotification     = "notification-service"
-	ProducerBroker           = "broker-service"
-	ProducerKYC              = "kyc-service"
-	ProducerSupport          = "support-service"
-	ProducerBonus            = "bonus-service"
-	ProducerMedia            = "media-service"
-	ProducerMt5ManagerBridge = "mt5-manager-bridge"
+	ProducerUser         = "user-service"
+	ProducerAuth         = "auth-service"
+	ProducerWallet       = "wallet-service"
+	ProducerIB           = "ib-service"
+	ProducerNotification = "notification-service"
+	ProducerBroker       = "broker-service"
+	ProducerKYC          = "kyc-service"
+	ProducerSupport      = "support-service"
+	ProducerBonus        = "bonus-service"
+	ProducerMedia        = "media-service"
 )
 
 // CatalogEntry describes ownership of a versioned or legacy event type.
@@ -90,19 +89,6 @@ func Catalog() []CatalogEntry {
 		// media-service (reserved)
 		{EventType: TypeMediaUploadCompletedV1, Producer: ProducerMedia},
 		{EventType: TypeMediaFileDeletedV1, Producer: ProducerMedia},
-
-		// mt5-manager-bridge (Manager API infrastructure; not trade.opened.v1)
-		{EventType: TypeMt5OrderCreatedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5OrderUpdatedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5OrderDeletedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5DealCreatedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5DealUpdatedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5DealDeletedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5DealPerformedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5PositionCreatedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5PositionUpdatedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5PositionClosedV1, Producer: ProducerMt5ManagerBridge},
-		{EventType: TypeMt5ReconciliationRequiredV1, Producer: ProducerMt5ManagerBridge},
 	}
 }
 

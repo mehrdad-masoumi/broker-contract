@@ -21,7 +21,6 @@ func TestProducerOfKYCAndSupport(t *testing.T) {
 		LegacyTicketCreated:    ProducerSupport,
 		TypeBonusGrantedV1:     ProducerBonus,
 		TypeTradeClosedV1:      ProducerBroker,
-		TypeMt5DealCreatedV1:   ProducerMt5ManagerBridge,
 	}
 	for et, want := range cases {
 		got, ok := ProducerOf(et)
