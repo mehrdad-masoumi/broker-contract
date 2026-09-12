@@ -9,8 +9,23 @@ const (
 	TypeWalletCreditCompletedV1 = "wallet.credit.completed.v1"
 )
 
+// Funding destination values for DepositCompletedV1.FundingDestination.
+// These are structural domain signals — not EventID / producer-name tokens.
+const (
+	FundingDestinationTradingAccount = "trading_account"
+	FundingDestinationCentralWallet  = "central_wallet"
+)
+
 // DepositCompletedV1 is the payload for deposit.completed.v1.
 // Amount fields are decimal strings (never JSON floats).
+//
+// Account-funded Direct Deposit (activates Active) must set:
+//   - Status = "completed"
+//   - DestinationAccountID > 0 (Live Trading Account identity)
+//   - FundingDestination = FundingDestinationTradingAccount
+//
+// Legacy / Central-Wallet-only completions omit DestinationAccountID and
+// must not set FundingDestinationTradingAccount.
 type DepositCompletedV1 struct {
 	DepositID            int64     `json:"deposit_id"`
 	UserID               int64     `json:"user_id"`
@@ -20,6 +35,12 @@ type DepositCompletedV1 struct {
 	ExchangeRate         string    `json:"exchange_rate,omitempty"`
 	Status               string    `json:"status"`
 	CompletedAt          time.Time `json:"completed_at"`
+	// DestinationAccountID is the Live Trading Account funded by this deposit.
+	// Zero / omitted means Central-Wallet-only (never activates Active).
+	DestinationAccountID int64 `json:"destination_account_id,omitempty"`
+	// FundingDestination is the structural funding target.
+	// Use FundingDestinationTradingAccount for account-funded Direct Deposit.
+	FundingDestination string `json:"funding_destination,omitempty"`
 }
 
 // WithdrawalCompletedV1 is the payload for withdrawal.completed.v1.

@@ -15,6 +15,10 @@ const (
 	TypeIBReferralCreatedV1 = "ib.referral_created.v1"
 	TypeIBUserAttributedV1  = "ib.user_attributed.v1"
 
+	TypeIBChangeRequestedV1 = "ib.change_requested.v1"
+	TypeIBChangeApprovedV1  = "ib.change_approved.v1"
+	TypeIBChangeRejectedV1  = "ib.change_rejected.v1"
+
 	TypeIBRebateCreatedV1  = "ib.rebate_created.v1"
 	TypeIBRebateReleasedV1 = "ib.rebate_released.v1"
 	TypeIBRebateReversedV1 = "ib.rebate_reversed.v1"
@@ -97,6 +101,35 @@ type IBUserAttributedV1 struct {
 	ReferralCode string    `json:"referral_code"`
 	Depth        int       `json:"depth"`
 	AttributedAt time.Time `json:"attributed_at"`
+}
+
+// IBChangeRequestedV1 is the payload for ib.change_requested.v1.
+type IBChangeRequestedV1 struct {
+	RequestID             int64     `json:"request_id"`
+	UserID                int64     `json:"user_id"`
+	CurrentIBID           int64     `json:"current_ib_id,omitempty"`
+	RequestedIBID         int64     `json:"requested_ib_id"`
+	RequestedReferralCode string    `json:"requested_referral_code"`
+	RequestedAt           time.Time `json:"requested_at"`
+}
+
+// IBChangeApprovedV1 is the payload for ib.change_approved.v1.
+type IBChangeApprovedV1 struct {
+	RequestID     int64     `json:"request_id"`
+	UserID        int64     `json:"user_id"`
+	CurrentIBID   int64     `json:"current_ib_id,omitempty"`
+	RequestedIBID int64     `json:"requested_ib_id"`
+	ApprovedBy    int64     `json:"approved_by,omitempty"`
+	ApprovedAt    time.Time `json:"approved_at"`
+}
+
+// IBChangeRejectedV1 is the payload for ib.change_rejected.v1.
+type IBChangeRejectedV1 struct {
+	RequestID  int64     `json:"request_id"`
+	UserID     int64     `json:"user_id"`
+	RejectedBy int64     `json:"rejected_by,omitempty"`
+	Reason     string    `json:"reason,omitempty"`
+	RejectedAt time.Time `json:"rejected_at"`
 }
 
 // IBRebateCreatedV1 is the payload for ib.rebate_created.v1.

@@ -392,15 +392,21 @@ func (x *Role) GetAdminAccess() bool {
 }
 
 type Settings struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	UserId              uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Language            string                 `protobuf:"bytes,2,opt,name=language,proto3" json:"language,omitempty"`
-	Timezone            string                 `protobuf:"bytes,3,opt,name=timezone,proto3" json:"timezone,omitempty"`
-	Currency            string                 `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
-	NotificationEnabled bool                   `protobuf:"varint,5,opt,name=notification_enabled,json=notificationEnabled,proto3" json:"notification_enabled,omitempty"`
-	TradeAlertsEnabled  bool                   `protobuf:"varint,6,opt,name=trade_alerts_enabled,json=tradeAlertsEnabled,proto3" json:"trade_alerts_enabled,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	UserId uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	// language is the legacy notification preference. Prefer site_language when
+	// set; consumers must apply site_language → language → default themselves.
+	Language            string `protobuf:"bytes,2,opt,name=language,proto3" json:"language,omitempty"`
+	Timezone            string `protobuf:"bytes,3,opt,name=timezone,proto3" json:"timezone,omitempty"`
+	Currency            string `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
+	NotificationEnabled bool   `protobuf:"varint,5,opt,name=notification_enabled,json=notificationEnabled,proto3" json:"notification_enabled,omitempty"`
+	TradeAlertsEnabled  bool   `protobuf:"varint,6,opt,name=trade_alerts_enabled,json=tradeAlertsEnabled,proto3" json:"trade_alerts_enabled,omitempty"`
+	// site_language is the canonical site-UI locale (en|fa|ar|fr|ru|tr).
+	// optional: unset/NULL means no explicit preference (distinct from "en").
+	// Do not treat absence as English.
+	SiteLanguage  *string `protobuf:"bytes,7,opt,name=site_language,json=siteLanguage,proto3,oneof" json:"site_language,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Settings) Reset() {
@@ -473,6 +479,13 @@ func (x *Settings) GetTradeAlertsEnabled() bool {
 		return x.TradeAlertsEnabled
 	}
 	return false
+}
+
+func (x *Settings) GetSiteLanguage() string {
+	if x != nil && x.SiteLanguage != nil {
+		return *x.SiteLanguage
+	}
+	return ""
 }
 
 type TwoFactor struct {
@@ -1942,14 +1955,16 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
 	"\vfull_access\x18\x03 \x01(\bR\n" +
 	"fullAccess\x12!\n" +
-	"\fadmin_access\x18\x04 \x01(\bR\vadminAccess\"\xdc\x01\n" +
+	"\fadmin_access\x18\x04 \x01(\bR\vadminAccess\"\x98\x02\n" +
 	"\bSettings\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x1a\n" +
 	"\blanguage\x18\x02 \x01(\tR\blanguage\x12\x1a\n" +
 	"\btimezone\x18\x03 \x01(\tR\btimezone\x12\x1a\n" +
 	"\bcurrency\x18\x04 \x01(\tR\bcurrency\x121\n" +
 	"\x14notification_enabled\x18\x05 \x01(\bR\x13notificationEnabled\x120\n" +
-	"\x14trade_alerts_enabled\x18\x06 \x01(\bR\x12tradeAlertsEnabled\">\n" +
+	"\x14trade_alerts_enabled\x18\x06 \x01(\bR\x12tradeAlertsEnabled\x12(\n" +
+	"\rsite_language\x18\a \x01(\tH\x00R\fsiteLanguage\x88\x01\x01B\x10\n" +
+	"\x0e_site_language\">\n" +
 	"\tTwoFactor\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x18\n" +
 	"\aenabled\x18\x02 \x01(\bR\aenabled\"\x85\x01\n" +
@@ -2181,6 +2196,7 @@ func file_user_v1_user_proto_init() {
 	if File_user_v1_user_proto != nil {
 		return
 	}
+	file_user_v1_user_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

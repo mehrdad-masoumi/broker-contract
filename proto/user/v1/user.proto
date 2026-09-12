@@ -45,11 +45,17 @@ message Role {
 
 message Settings {
   uint64 user_id = 1;
+  // language is the legacy notification preference. Prefer site_language when
+  // set; consumers must apply site_language → language → default themselves.
   string language = 2;
   string timezone = 3;
   string currency = 4;
   bool notification_enabled = 5;
   bool trade_alerts_enabled = 6;
+  // site_language is the canonical site-UI locale (en|fa|ar|fr|ru|tr).
+  // optional: unset/NULL means no explicit preference (distinct from "en").
+  // Do not treat absence as English.
+  optional string site_language = 7;
 }
 
 message TwoFactor {
